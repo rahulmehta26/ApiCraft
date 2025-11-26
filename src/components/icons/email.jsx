@@ -1,8 +1,11 @@
 import { twMerge } from "tailwind-merge";
+import { motion } from "motion/react";
+import { pathAnimation } from "../../utils/path-animation";
+import { inViewAnimation } from "../../utils/inview-animation";
 
-const Email = ({className}) => {
+const Email = ({ className }) => {
   return (
-    <svg
+    <motion.svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="none"
@@ -10,15 +13,18 @@ const Email = ({className}) => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-          className={twMerge(
-              "icon",
-              className
-      )}
+      className={twMerge("icon", className)}
+      variants={{
+        hover: {},
+      }}
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-      <path d="M3 7l9 6l9 -6" />
-    </svg>
+      <motion.path
+        {...pathAnimation} whileInView={inViewAnimation}
+        d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"
+      />
+      <motion.path {...pathAnimation} whileInView={inViewAnimation} d="M3 7l9 6l9 -6" />
+    </motion.svg>
   );
 };
 

@@ -3,8 +3,15 @@ import Arrow from "../icons/arrow";
 import { motion } from "motion/react";
 
 const Input = ({ val, onChange, onSubmit }) => {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit();
+  };
+
   return (
-    <div
+    <form
+      onSubmit={handleSubmit}
       className={twMerge(
         "w-full",
         "border-6 border-foreground",
@@ -17,28 +24,30 @@ const Input = ({ val, onChange, onSubmit }) => {
         onChange={onChange}
         placeholder="craft here..."
         className={twMerge(
-          "w-full py-4 pl-8",
-          "text-2xl font-semibold text-foreground",
-          "placeholder:text-2xl placeholder:text-muted-foreground caret-foreground ",
+          "w-full md:py-4 py-2 md:pl-8 pl-4",
+          "md:text-2xl text-md font-semibold text-foreground",
+          "md:placeholder:text-2xl placeholder:text-md placeholder:text-muted-foreground caret-foreground ",
           "outline outline-none"
         )}
       />
 
-      <motion.button
+      <button
         className={twMerge(
-          "h-full w-28 py-4",
+          "h-full w-14 md:w-28 md:py-4 py-2",
           "bg-foreground cursor-pointer ",
           "flex justify-center items-center",
           "group"
         )}
-        whileTap={{
-          x: 20,
-        }}
-        onClick={onSubmit}
+        type="submit"
       >
-        <Arrow className=" stroke-background w-16 h-10 group-hover:scale-150 transition-all duration-300 " />
-      </motion.button>
-    </div>
+        <motion.div
+          whileTap={{ x: "var(--tap-x)" }}
+          transition={{ type: "spring", stiffness: 200 }}
+        >
+          <Arrow className="stroke-background md:w-16 md:h-10 w-10 h-8 group-hover:scale-150 transition-all duration-300" />
+        </motion.div>
+      </button>
+    </form>
   );
 };
 

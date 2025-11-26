@@ -16,7 +16,7 @@ export const getTitle = (data) => {
 export const getDescription = (data) => {
   const key = Object.keys(data).find(
     (k) =>
-      /(desc|description|bio|summary|info)/i.test(k) &&
+      /(desc|description|bio|summary|info|body)/i.test(k) &&
       typeof data[k] === "string"
   );
 

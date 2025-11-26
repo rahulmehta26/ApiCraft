@@ -3,14 +3,13 @@ import { motion } from "motion/react";
 import { pathAnimation } from "../../utils/path-animation";
 import { inViewAnimation } from "../../utils/inview-animation";
 
-const Database = ({ className }) => {
+const Hexagon = ({ className }) => {
   return (
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
       className={twMerge("icon", className)}
@@ -22,12 +21,10 @@ const Database = ({ className }) => {
       <motion.path
         {...pathAnimation}
         whileInView={inViewAnimation}
-        d="M12 6m-8 0a8 3 0 1 0 16 0a8 3 0 1 0 -16 0"
+        d="M19.875 6.27a2.225 2.225 0 0 1 1.125 1.948v7.284c0 .809 -.443 1.555 -1.158 1.948l-6.75 4.27a2.269 2.269 0 0 1 -2.184 0l-6.75 -4.27a2.225 2.225 0 0 1 -1.158 -1.948v-7.285c0 -.809 .443 -1.554 1.158 -1.947l6.75 -3.98a2.33 2.33 0 0 1 2.25 0l6.75 3.98h-.033z"
       />
-      <motion.path whileInView={inViewAnimation} {...pathAnimation} d="M4 6v6a8 3 0 0 0 16 0v-6" />
-      <motion.path whileInView={inViewAnimation} {...pathAnimation} d="M4 12v6a8 3 0 0 0 16 0v-6" />
     </motion.svg>
   );
 };
 
-export default Database;
+export default Hexagon;

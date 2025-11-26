@@ -17,7 +17,7 @@ const fetchData = async () => {
   }
 };`,
 
-    then: (url) => `// Fetch API (Promise .then)
+    promise: (url) => `// Fetch API (Promise .then)
 function fetchData() {
   return fetch('${url}')
     .then(response => {
@@ -48,7 +48,7 @@ const fetchData = async () => {
   }
 };`,
 
-    then: (url) => `// Axios (Promise .then)
+    promise: (url) => `// Axios (Promise .then)
 import axios from "axios";
 
 function fetchData() {

@@ -1,6 +1,7 @@
+import React from "react";
 import { twMerge } from "tailwind-merge";
 
-const Sparkles = ({className}) => {
+const Exclamation = ({className}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,9 +14,11 @@ const Sparkles = ({className}) => {
       className={twMerge("icon", className)}
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z" />
+      <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+      <path d="M12 9v4" />
+      <path d="M12 16v.01" />
     </svg>
   );
 };
 
-export default Sparkles;
+export default Exclamation;

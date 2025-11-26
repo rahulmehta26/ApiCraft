@@ -14,7 +14,7 @@ function getInitialTheme() {
   return prefersDark ? "dark" : "light";
 }
 
-const ThemeToggle = () => {
+const ThemeToggle = ({className, iconStyle}) => {
   const [theme, setTheme] = useState(getInitialTheme);
 
   useEffect(() => {
@@ -32,8 +32,9 @@ const ThemeToggle = () => {
     <motion.div
       onClick={toggleTheme}
       className={twMerge(
-        "bg-background border-4 border-foreground cursor-pointer",
-        "neo-shadow-hover flex items-center justify-center p-2 w-12 h-12"
+        "bg-background border-foreground cursor-pointer",
+        "neo-shadow-hover flex items-center justify-center ",
+        className
       )}
       whileTap={{ scale: 0.9 }}
     >
@@ -44,9 +45,9 @@ const ThemeToggle = () => {
             initial={{ rotate: 180, opacity: 0 }}
             animate={{ rotate: 0, opacity: 1 }}
             exit={{ rotate: 360, opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
           >
-            <Moon className="icon" />
+            <Moon className={twMerge(iconStyle)} />
           </motion.div>
         ) : (
           <motion.div
@@ -54,9 +55,9 @@ const ThemeToggle = () => {
             initial={{ rotate: -180, opacity: 0 }}
             animate={{ rotate: 0, opacity: 1 }}
             exit={{ rotate: 360, opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
           >
-            <Sun className="icon" />
+            <Sun className={twMerge(iconStyle)} />
           </motion.div>
         )}
       </AnimatePresence>

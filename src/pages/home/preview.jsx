@@ -2,24 +2,31 @@ import { useState } from "react";
 import { sampleData } from "../../content/preview";
 import Button from "../../components/ui/button";
 import { twMerge } from "tailwind-merge";
+import Grid from "../../components/icons/grid";
+import Database from "../../components/icons/database";
+import { motion } from "motion/react";
+import { parentAnimations } from "../../utils/parent-animation";
 
 const Preview = () => {
   const [viewMode, setViewMode] = useState("cards");
 
   return (
-    <section id="preview" className="relative py-32 bg-muted/30 ">
-      <div className="container mx-auto px-4">
+    <motion.section
+      {...parentAnimations?.fadeInUp}
+      id="preview"
+      className="relative py-32 bg-muted/70 mask-preview ">
+      <motion.div {...parentAnimations?.fadeInUp} className="container mx-auto px-4">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="font-bold text-4xl md:text-6xl text-balance">
+          <h2 className="font-bold font-comico text-4xl md:text-6xl text-balance">
             Visual  <span className={twMerge("gradient-text")}>Data Preview</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">
+          <p className="text-lg font-clash text-muted-foreground max-w-2xl mx-auto text-pretty">
             Visualize your API responses in stunning, animated cards
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-6">
-          <div className="flex justify-center gap-4">
+        <motion.div {...parentAnimations?.fadeInUp} className="max-w-4xl mx-auto space-y-6">
+          <div className="flex flex-col md:flex-row justify-center gap-4">
             <Button
               className={twMerge(
                 viewMode === "cards"
@@ -29,6 +36,8 @@ const Preview = () => {
               )}
               title="Card View"
               onClick={() => setViewMode("cards")}
+              leftIcon={Grid}
+              hover={true}
             />
 
             <Button
@@ -40,6 +49,8 @@ const Preview = () => {
               )}
               title="Raw JSON"
               onClick={() => setViewMode("json")}
+              leftIcon={Database}
+              hover={true}
             />
           </div>
 
@@ -59,9 +70,7 @@ const Preview = () => {
                     <span className="text-sm font-bold text-muted-foreground uppercase tracking-wider">
                       {item.label}
                     </span>
-                    <span className="text-xs border-2 border-foreground bg-muted px-2 py-1 font-mono">
-                      {item.type}
-                    </span>
+
                   </div>
                   <p className="text-2xl font-bold text-foreground font-mono">
                     {item.value}
@@ -87,9 +96,9 @@ const Preview = () => {
               </pre>
             </div>
           )}
-        </div>
-      </div>
-    </section>
+        </motion.div>
+      </motion.div>
+    </motion.section>
   );
 };
 

@@ -1,12 +1,18 @@
 import { twMerge } from "tailwind-merge";
-import { getCategory, getDescription, getImage, getPrice, getTitle } from "../../utils/getData";
-import NoImage from "../../assets/noImage.jpg"
+import { motion } from "motion/react";
+import {
+  getCategory,
+  getDescription,
+  getImage,
+  getPrice,
+  getTitle,
+} from "../../utils/get-data";
+import NoImage from "../../assets/noImage.jpg";
 
 const PreviewCard = ({ data }) => {
+  if (!data) return <h1>Data is not coming in this component</h1>;
 
-  console.log(data)
-
-  if (!data) return null;
+  console.log(data);
 
   const imageSrc = getImage(data);
   const title = getTitle(data);
@@ -15,7 +21,16 @@ const PreviewCard = ({ data }) => {
   const category = getCategory(data);
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{
+        once: false,
+        amount: 0.2,
+      }}
+      transition={{ 
+  duration: 0.8,  
+}}
       className={twMerge(
         "w-[15rem] h-auto",
         "border-4 border-foreground ",
@@ -26,16 +41,17 @@ const PreviewCard = ({ data }) => {
       {imageSrc && <Image image={imageSrc} />}
 
       <div className=" space-y-3 px-4 pb-4 ">
-      
         {title && <Title title={title} />}
-      
+
         {description && <Description description={description} />}
-      
+
         {price && <Price price={price} />}
-      
-         {category && <Category category={category} />}
+
+        {category && <Category category={category} />}
+
+        {data?.email && <Email email={data?.email} />}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -50,13 +66,21 @@ const Image = ({ image }) => {
 
 const Title = ({ title }) => {
   return (
-    <h3 className=" text-lg text-foreground font-bold font-mono ">{title}</h3>
+    <h3 className=" md:text-lg text-md text-foreground font-bold font-mono ">
+      {title}
+    </h3>
   );
 };
 
 const Description = ({ description }) => {
   return (
     <p className=" text-sm text-muted-foreground font-medium ">{description}</p>
+  );
+};
+
+const Email = ({ email }) => {
+  return (
+    <p className=" text-xs mt-2 text-muted-foreground font-medium ">{email}</p>
   );
 };
 

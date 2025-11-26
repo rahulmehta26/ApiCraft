@@ -4,13 +4,13 @@ import Database from "../components/icons/database";
 
 export const variants = {
   default: {
-    icon: () => <CheckCircle className="h-5 w-5 text-secondary" />,
+    icon: () => <CheckCircle className="h-5 w-5 text-response" />,
     title: "API Response",
     content: () => (
       <div className="space-y-2 font-mono text-xs">
         <div className="flex justify-between">
           <span className="text-muted-foreground">status:</span>
-          <span className="text-secondary">200 OK</span>
+          <span className="text-response">200 OK</span>
         </div>
         <div className="flex justify-between">
           <span className="text-muted-foreground">time:</span>
@@ -31,7 +31,7 @@ export const variants = {
     ),
   },
   data: {
-    icon: () => <Database className="h-5 w-5 text-secondary" />,
+    icon: () => <Database className="h-5 w-5 text-primary" />,
     title: "Data Preview",
     content: () => (
       <div className="space-y-2">

@@ -1,9 +1,14 @@
 import { twMerge } from "tailwind-merge";
 import Check from "../icons/check";
 import Copy from "../icons/copy";
+import Button from "./button";
 
-const CodeTerminal = ({ children, handleCopy, copied, apiMethod = "fetch" }) => {
-
+const CodeTerminal = ({
+  children,
+  handleCopy,
+  copied,
+  apiMethod = "fetch",
+}) => {
   return (
     <div className="max-w-4xl mx-auto">
       <div
@@ -20,40 +25,39 @@ const CodeTerminal = ({ children, handleCopy, copied, apiMethod = "fetch" }) => 
           )}
         >
           <div className="flex items-center gap-2">
-            <div className={twMerge("threeDot", "bg-red")} />
+            <div className={twMerge("threeDot", "bg-red h-2 w-2 border")} />
 
-            <div className={twMerge("threeDot", "bg-yellow")} />
+            <div className={twMerge("threeDot", "bg-yellow h-2 w-2 border")} />
 
-            <div className={twMerge("threeDot", "bg-green")} />
+            <div className={twMerge("threeDot", "bg-green h-2 w-2 border")} />
           </div>
 
-          <span className="font-mono text-sm text-muted-foreground">
-            {
-              apiMethod === "fetch" ? " api-fetch.js" : " api-axios.js"
-           }
+          <span className="font-mono text-xs md:text-sm text-muted-foreground">
+            {apiMethod === "fetch" ? " api-fetch.js" : " api-axios.js"}
           </span>
 
-          <button
+          <Button
             onClick={handleCopy}
-            className={twMerge(
-              "border-2 border-foreground px-4 py-2 transition-all",
-              "bg-primary hover:bg-primary/90 ",
-              "cursor-pointer text-primary-foreground font-bold text-sm ",
-              "flex items-center gap-2"
-            )}
+            leftIcon={copied ? Check : Copy}
+            title={copied ? "Copied" : "Copy"}
+            className="bg-primary hidden md:flex hover:bg-primary/90"
+            hover={true}
+          />
+
+          <div
+          className=" md:hidden "
           >
-            {copied ? (
-              <>
-                <Check className="h-4 w-4" />
-                Copied!
-              </>
-            ) : (
-              <>
-                <Copy className="h-4 w-4" />
-                Copy
-              </>
-            )}
-          </button>
+
+          {copied ? (
+            <button>
+              <Check className="w-4 h-4" />
+            </button>
+          ) : (
+            <button onClick={handleCopy} >
+              <Copy className="w-4 h-4" />
+            </button>
+          )}
+          </div>
         </div>
         {children}
       </div>

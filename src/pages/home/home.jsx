@@ -5,7 +5,8 @@ import Hero from "./hero";
 
 const Home = () => {
   return (
-    <>
+    <main>
+
       <Hero />
 
       <Features />
@@ -13,7 +14,8 @@ const Home = () => {
       <Preview />
 
       <CodeSnippetSection />
-    </>
+
+    </main>
   );
 };
 

@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { pathAnimation } from "../../utils/path-animation";
 import { inViewAnimation } from "../../utils/inview-animation";
 
-const Database = ({ className }) => {
+const AsyncIcon = ({ className }) => {
   return (
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
@@ -22,12 +22,15 @@ const Database = ({ className }) => {
       <motion.path
         {...pathAnimation}
         whileInView={inViewAnimation}
-        d="M12 6m-8 0a8 3 0 1 0 16 0a8 3 0 1 0 -16 0"
+        d="M3 12a9 9 0 0 0 9 9a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9"
       />
-      <motion.path whileInView={inViewAnimation} {...pathAnimation} d="M4 6v6a8 3 0 0 0 16 0v-6" />
-      <motion.path whileInView={inViewAnimation} {...pathAnimation} d="M4 12v6a8 3 0 0 0 16 0v-6" />
+      <motion.path
+        {...pathAnimation}
+        whileInView={inViewAnimation}
+        d="M17 12a5 5 0 1 0 -5 5"
+      />
     </motion.svg>
   );
 };
 
-export default Database;
+export default AsyncIcon;
