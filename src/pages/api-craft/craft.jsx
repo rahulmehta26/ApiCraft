@@ -1,8 +1,8 @@
 import { twMerge } from "tailwind-merge";
-import { useState } from "react";
 import { motion } from "motion/react";
-import Input from "../../components/ui/search-bar";
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import Input from "../../components/ui/search-bar";
 import { getApiData } from "../../utils/get-api-data";
 import EmptyState from "../../components/ui/empty-state";
 import { findFirstArray } from "../../utils/finding-array";
@@ -12,34 +12,52 @@ import { useToastStore } from "../../store/useToastStore";
 import { scrollToView } from "../../utils/scroll-to-view";
 import CodeSnippetSectionCraft from "./code-snippet-section-craft";
 import PreviewSection from "./preview-section";
+import { useCraftToggles } from "../../hooks/useCraftToggles";
 
 const Craft = () => {
   
-  const [urls, setUrls] = useState("");
+  const { urls, setUrls } = useCraftToggles();
+  const addToast = useToastStore((state) => state.addToast);
 
   const { data, isLoading, isError, refetch, error } = useQuery({
     queryKey: ["apiData", urls],
     queryFn: () => getApiData(urls),
     enabled: false,
-    onError: (error) => addToast(error?.message, "error"),
   });
-
-  const addToast = useToastStore((state) => state.addToast);
-
-  if (isLoading) return <Loader loading={isLoading} />;
 
   const arrayToRender = findFirstArray(data);
 
+  useEffect(() => {
+    if (isError && error) {
+      addToast(error?.message || "An error occurred", "error");
+      return; 
+    }
+
+    if (!data) return;
+
+    if (!arrayToRender) {
+      addToast("No data found.", "info");
+    } else if (Array.isArray(arrayToRender) && arrayToRender.length === 0) {
+      addToast("No data found.", "info");
+    } else if (
+      typeof arrayToRender === "object" &&
+      Object.keys(arrayToRender).length === 0
+    ) {
+      addToast("No details available.", "info");
+    }
+  }, [data, isError, error, arrayToRender, addToast]);
+
   const handleSubmit = async (href) => {
     if (!urls.trim()) {
-      addToast("Please enter something to craft", "info")
+      addToast("Please enter something to craft", "info");
       return;
     }
 
     scrollToView(href);
-
     refetch();
   };
+
+  if (isLoading) return <Loader loading={isLoading} />;
 
   return (
     <motion.section
@@ -53,8 +71,7 @@ const Craft = () => {
         )}
       />
 
-      <div className=" relative z-10">
-
+      <div className="relative z-10">
         <div className="text-start mb-16 space-y-12">
           <h2 className="font-bold max-w-4xl font-comico text-4xl md:text-7xl text-balance">
             Paste an API. Get Code.{" "}
@@ -72,11 +89,8 @@ const Craft = () => {
 
         {arrayToRender ? (
           <>
-          
             <CodeSnippetSectionCraft url={urls} />
-
             <PreviewSection arrayToRender={arrayToRender} />
-            
           </>
         ) : (
           <motion.section
@@ -88,8 +102,6 @@ const Craft = () => {
             <EmptyState />
           </motion.section>
         )}
-
-        {isError &&  addToast(error?.message, "error")}
       </div>
     </motion.section>
   );

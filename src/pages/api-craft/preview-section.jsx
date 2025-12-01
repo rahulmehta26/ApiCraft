@@ -1,4 +1,3 @@
-import React from "react";
 import { twMerge } from "tailwind-merge";
 import AiIcon from "../../components/icons/ai";
 import Grid from "../../components/icons/grid";
@@ -6,13 +5,13 @@ import Database from "../../components/icons/database";
 import PreviewJSON from "../../components/ui/api-preview-json";
 import PreviewCard from "../../components/ui/api-preview-card";
 import Button from "../../components/ui/button";
+import { useCraftToggles } from "../../hooks/useCraftToggles";
 
-const PreviewSection = ({arrayToRender}) => {
-  const [uiShow, setUiShow] = useState("cards");
+const PreviewSection = ({ arrayToRender }) => {
 
-  const toggleUiShow = () => {
-    setUiShow((prev) => (prev === "cards" ? "json" : "cards"));
-  };
+  const { uiShow, toggleUiShow } = useCraftToggles();
+
+  if (arrayToRender.length === 0) return null;
 
   return (
     <div className=" my-16 space-y-8 md:space-y-16 ">

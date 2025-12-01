@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import CodeTerminal from "../../components/ui/code-terminal";
@@ -9,25 +8,18 @@ import Globe from "../../components/icons/globe";
 import Hexagon from "../../components/icons/hexagon";
 import PromiseIcon from "../../components/icons/promise";
 import AsyncIcon from "../../components/icons/async";
+import { useCraftToggles } from "../../hooks/useCraftToggles";
 
 const CodeSnippetSectionCraft = ({ url }) => {
-  const [apiMethod, setApiMethod] = useState("fetch");
-  const [promise, setPromise] = useState("promise");
-  const [copied, setCopied] = useState(false);
 
-  const toggleApiMethod = () => {
-    setApiMethod((prev) => (prev === "fetch" ? "axios" : "fetch"));
-  };
-
-  const togglePromise = () => {
-    setPromise((prev) => (prev === "promise" ? "async" : "promise"));
-  };
-
-  const handleCopy = () => {
-    // navigator.clipboard.writeText(codeSnippet);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const {
+    apiMethod,
+    toggleApiMethod,
+    togglePromise,
+    promise,
+    handleCopy,
+    copied,
+  } = useCraftToggles();
 
   return (
     <div id="code-snippet" className="my-16 space-y-8 md:space-y-16 ">
