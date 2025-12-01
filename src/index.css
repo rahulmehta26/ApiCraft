@@ -127,11 +127,12 @@
   --color-red: #ff5f56;
   --color-yellow: #ffbd2e;
   --color-green: #27c93f;
-  --color-info: #0a66c2;
+  --color-info: #3B87D6;
   --color-response: #00c853;
   --color-green-50: #388e3c;
-  --color-error: #460809;
+  --color-error: #EF4444;
   --color-purple: #9b5cff;
+  --color-warning: #FACC15 ;
 
   --font-clash: "Montserrat", sans-serif;
   --font-comico: "Comico", sans-serif;

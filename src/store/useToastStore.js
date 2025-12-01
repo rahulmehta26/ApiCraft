@@ -7,14 +7,8 @@ export const useToastStore = create((set) => ({
     const id = Date.now();
 
     set((state) => ({
-      toasts: [...state.toasts, { id, message, type }],
+      toasts: [...state.toasts, { id, message, type, duration }],
     }));
-
-    setTimeout(() => {
-      set((state) => ({
-        toasts: state.toasts.filter((t) => t.id !== id),
-      }));
-    }, duration);
   },
 
   removeToast: (id) =>

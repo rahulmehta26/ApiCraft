@@ -48,7 +48,7 @@ const Footer = () => {
                     className={twMerge(
                       "h-10 w-10 flex items-center justify-center",
                       "border-4 border-foreground bg-background",
-                      "hover:text-primary-foreground",
+                      "hover:text-primary-foreground cursor-pointer ",
                       "transition-colors neo-shadow-hover",
                       style
                     )}

@@ -4,6 +4,7 @@ import Footer from "../components/footer/footer";
 import { twMerge } from "tailwind-merge";
 import { useMenuModal } from "../store/useMenuModal";
 import MobileMenu from "../components/ui/mobile-menu";
+import { ToastContainer } from "../components/ui/toast/toast-container";
 
 const Layout = () => {
   const { isOpen, toggleModal } = useMenuModal();
@@ -19,6 +20,8 @@ const Layout = () => {
           "absolute inset-0"
         )}
       />
+
+      <ToastContainer />
 
       {isOpen && <MobileMenu isOpen={isOpen} toggleState={toggleModal} />}
 

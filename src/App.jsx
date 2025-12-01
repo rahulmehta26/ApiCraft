@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import Layout from './layout/Layout'
 import Home from './pages/home/home'
-import Craft from './pages/api-preview/craft'
+import Craft from './pages/api-craft/craft'
 
 const App = () => {
   return (

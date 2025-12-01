@@ -10,16 +10,15 @@ import {
 import NoImage from "../../assets/noImage.jpg";
 
 const PreviewCard = ({ data }) => {
+  
   if (!data) return <h1>Data is not coming in this component</h1>;
-
-  console.log(data);
 
   const imageSrc = getImage(data);
   const title = getTitle(data);
   const description = getDescription(data);
   const price = getPrice(data);
   const category = getCategory(data);
-
+ 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

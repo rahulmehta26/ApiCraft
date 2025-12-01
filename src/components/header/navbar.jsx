@@ -38,7 +38,7 @@ const Navbar = () => {
             <span
               className={twMerge(
                 "z-10 relative ",
-                "font-bold font-mono text-[16px]",
+                "font-bold text-background dark:text-foreground font-mono text-[16px]",
                 "mix-blend-exclusion ",
               )}
             >
