@@ -13,6 +13,7 @@ import { scrollToView } from "../../utils/scroll-to-view";
 import CodeSnippetSectionCraft from "./code-snippet-section-craft";
 import PreviewSection from "./preview-section";
 import { useCraftToggles } from "../../hooks/useCraftToggles";
+import pageTransition from "../../utils/page-transition";
 
 const Craft = () => {
   
@@ -107,4 +108,4 @@ const Craft = () => {
   );
 };
 
-export default Craft;
+export default pageTransition(Craft);

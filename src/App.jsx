@@ -1,20 +1,17 @@
-import { Route, Routes } from 'react-router-dom'
-import Layout from './layout/Layout'
-import Home from './pages/home/home'
-import Craft from './pages/api-craft/craft'
+import { Route, Routes } from "react-router-dom";
+import Layout from "./layout/Layout";
+import Home from "./pages/home/home";
+import Craft from "./pages/api-craft/craft";
 
 const App = () => {
   return (
     <Routes>
-
-      <Route element={<Layout />} >
-        
-        <Route path='/' element={<Home />} />
-        <Route path='/craft' element = { <Craft /> } />
-
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/craft" element={<Craft />} />
       </Route>
     </Routes>
-  )
-}
+  );
+};
 
-export default App
+export default App;

@@ -1,13 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "../components/header/header";
 import Footer from "../components/footer/footer";
 import { twMerge } from "tailwind-merge";
 import { useMenuModal } from "../store/useMenuModal";
 import MobileMenu from "../components/ui/mobile-menu";
 import { ToastContainer } from "../components/ui/toast/toast-container";
+import { AnimatePresence } from "motion/react";
 
 const Layout = () => {
   const { isOpen, toggleModal } = useMenuModal();
+  const location = useLocation();
+
   return (
     <div
       className={twMerge(
@@ -17,7 +20,7 @@ const Layout = () => {
       <div
         className={twMerge(
           "bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem]",
-          "absolute inset-0"
+          "absolute inset-0 pointer-events-none"
         )}
       />
 
@@ -27,7 +30,9 @@ const Layout = () => {
 
       <Header />
 
-      <Outlet />
+      <AnimatePresence mode="wait">
+        <Outlet key={location.pathname} />
+      </AnimatePresence>
 
       <Footer />
     </div>
