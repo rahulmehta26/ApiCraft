@@ -8,18 +8,15 @@ import Globe from "../../components/icons/globe";
 import Hexagon from "../../components/icons/hexagon";
 import PromiseIcon from "../../components/icons/promise";
 import AsyncIcon from "../../components/icons/async";
-import { useCraftToggles } from "../../hooks/useCraftToggles";
 
-const CodeSnippetSectionCraft = ({ url }) => {
-
-  const {
-    apiMethod,
-    toggleApiMethod,
-    togglePromise,
-    promise,
-    handleCopy,
-    copied,
-  } = useCraftToggles();
+const CodeSnippetSectionCraft = ({ 
+  url, 
+  apiMethod, 
+  toggleApiMethod, 
+  promise, 
+  togglePromise, 
+  copied, 
+  handleCopy  }) => {
 
   return (
     <div id="code-snippet" className="my-16 space-y-8 md:space-y-16 ">

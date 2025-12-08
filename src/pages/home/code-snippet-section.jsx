@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import CodeSample from "../../components/ui/code";
 import CodeTerminal from "../../components/ui/code-terminal";
 import { motion } from "motion/react";
-import { parentAnimations } from "../../utils/parent-animation";
+import { parentAnimations } from "../../animations/parent-animation";
 
 const codeSnippet = `// Fetch API Example
 const fetchData = async () => {

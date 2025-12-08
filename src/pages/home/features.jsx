@@ -1,7 +1,7 @@
 import { twMerge } from "tailwind-merge";
 import { features } from "../../content/features";
 import { motion } from "motion/react";
-import { parentAnimations } from "../../utils/parent-animation";
+import { parentAnimations } from "../../animations/parent-animation";
 
 const Features = () => {
   return (

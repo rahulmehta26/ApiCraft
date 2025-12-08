@@ -2,6 +2,7 @@ import { twMerge } from "tailwind-merge";
 import Check from "../icons/check";
 import Copy from "../icons/copy";
 import Button from "./button";
+import { TrafficLight } from "./traffic-light";
 
 const CodeTerminal = ({
   children,
@@ -13,7 +14,7 @@ const CodeTerminal = ({
     <div className="max-w-4xl mx-auto">
       <div
         className={twMerge(
-          "border-4 border-foreground bg-[#1e1e1e]",
+          "border-4 border-foreground bg-terminal",
           " neo-shadow-lg overflow-hidden"
         )}
       >
@@ -24,13 +25,8 @@ const CodeTerminal = ({
             "flex items-center justify-between"
           )}
         >
-          <div className="flex items-center gap-2">
-            <div className={twMerge("threeDot", "bg-red h-2 w-2 border")} />
 
-            <div className={twMerge("threeDot", "bg-yellow h-2 w-2 border")} />
-
-            <div className={twMerge("threeDot", "bg-green h-2 w-2 border")} />
-          </div>
+          <TrafficLight />
 
           <span className="font-mono text-xs md:text-sm text-muted-foreground">
             {apiMethod === "fetch" ? " api-fetch.js" : " api-axios.js"}

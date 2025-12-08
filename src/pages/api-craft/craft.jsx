@@ -1,23 +1,37 @@
+import { useEffect, useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 import { motion } from "motion/react";
-import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Input from "../../components/ui/search-bar";
 import { getApiData } from "../../utils/get-api-data";
 import EmptyState from "../../components/ui/empty-state";
 import { findFirstArray } from "../../utils/finding-array";
 import Loader from "../../components/ui/loader";
-import { parentAnimations } from "../../utils/parent-animation";
+import { parentAnimations } from "../../animations/parent-animation";
 import { useToastStore } from "../../store/useToastStore";
 import { scrollToView } from "../../utils/scroll-to-view";
 import CodeSnippetSectionCraft from "./code-snippet-section-craft";
 import PreviewSection from "./preview-section";
 import { useCraftToggles } from "../../hooks/useCraftToggles";
-import pageTransition from "../../utils/page-transition";
+import { isValidUrl } from "../../utils/url-valid-checker";
+import pageTransition from "../../animations/page-transition";
+
+export const preloadCraft = () => import("./craft");
 
 const Craft = () => {
   
-  const { urls, setUrls } = useCraftToggles();
+  const {
+    urls,
+    setUrls,
+    copied,
+    handleCopy,
+    apiMethod,
+    toggleApiMethod,
+    promise,
+    togglePromise,
+    uiShow,
+    toggleUiShow,
+  } = useCraftToggles();
   const addToast = useToastStore((state) => state.addToast);
 
   const { data, isLoading, isError, refetch, error } = useQuery({
@@ -26,7 +40,7 @@ const Craft = () => {
     enabled: false,
   });
 
-  const arrayToRender = findFirstArray(data);
+  const arrayToRender = useMemo(() => findFirstArray(data), [data]);
 
   useEffect(() => {
     if (isError && error) {
@@ -46,7 +60,7 @@ const Craft = () => {
     ) {
       addToast("No details available.", "info");
     }
-  }, [data, isError, error, arrayToRender, addToast]);
+  }, [data, isError, error?.message, arrayToRender, addToast]);
 
   const handleSubmit = async (href) => {
     if (!urls.trim()) {
@@ -54,15 +68,26 @@ const Craft = () => {
       return;
     }
 
+    if (!isValidUrl(urls)) {
+    addToast(
+      "Please enter a valid URL (must start with http:// or https://)",
+      "error"
+    );
+    return;
+    }
+    
+    try {
     scrollToView(href);
-    refetch();
+    await refetch();
+  } catch (error) {
+    
+  }
   };
 
   if (isLoading) return <Loader loading={isLoading} />;
 
   return (
-    <motion.section
-      {...parentAnimations?.fadeInUp}
+    <section
       className={twMerge("relative min-h-screen overflow-hidden px-4 pt-32")}
     >
       <div
@@ -73,38 +98,62 @@ const Craft = () => {
       />
 
       <div className="relative z-10">
-        <div className="text-start mb-16 space-y-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+          className="text-start mb-16 space-y-12"
+        >
           <h2 className="font-bold max-w-4xl font-comico text-4xl md:text-7xl text-balance">
             Paste an API. Get Code.{" "}
             <span className="gradient-text">Preview All Data.</span>
           </h2>
-        </div>
+        </motion.div>
 
-        <div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}>
           <Input
             val={urls}
             onChange={(e) => setUrls(e.target.value)}
             onSubmit={() => handleSubmit("code-snippet")}
           />
-        </div>
+        </motion.div>
 
         {arrayToRender ? (
-          <>
-            <CodeSnippetSectionCraft url={urls} />
-            <PreviewSection arrayToRender={arrayToRender} />
-          </>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <CodeSnippetSectionCraft
+              url={urls}
+              apiMethod={apiMethod}
+              toggleApiMethod={toggleApiMethod}
+              promise={promise}
+              togglePromise={togglePromise}
+              copied={copied}
+              handleCopy={handleCopy}
+            />
+            <PreviewSection
+              arrayToRender={arrayToRender}
+              uiShow={uiShow}
+              toggleUiShow={toggleUiShow}
+            />
+          </motion.div>
         ) : (
           <motion.section
             className="my-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
             <EmptyState />
           </motion.section>
         )}
       </div>
-    </motion.section>
+    </section>
   );
 };
 

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import CheckCircle from "../../icons/check-circle";
 import Exclamation from "../../icons/exclamation";
@@ -64,7 +64,11 @@ export const Toast = ({ message, type, duration, id }) => {
 
   useEffect(() => {
     startTimer();
-    return clearTimer;
+    return () => {
+      clearTimer();
+
+      remainingRef.current = 0;
+    };
   }, [startTimer, clearTimer]);
 
   return (

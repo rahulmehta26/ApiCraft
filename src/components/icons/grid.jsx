@@ -1,7 +1,7 @@
 import { twMerge } from "tailwind-merge";
 import {  motion } from "motion/react";
-import { pathAnimation } from "../../utils/path-animation";
-import { inViewAnimation } from "../../utils/inview-animation";
+import { pathAnimation } from "../../animations/path-animation";
+import { inViewAnimation } from "../../animations/inview-animation";
 
 const Grid = ({ className }) => {
   return (

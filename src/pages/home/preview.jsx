@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 import Grid from "../../components/icons/grid";
 import Database from "../../components/icons/database";
 import { motion } from "motion/react";
-import { parentAnimations } from "../../utils/parent-animation";
+import { parentAnimations } from "../../animations/parent-animation";
 
 const Preview = () => {
   const [viewMode, setViewMode] = useState("cards");

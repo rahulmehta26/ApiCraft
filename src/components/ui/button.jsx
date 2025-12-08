@@ -1,7 +1,18 @@
 import { twMerge } from "tailwind-merge";
 import { motion } from "motion/react";
 
-const Button = ({ className, title, onClick, leftIcon: LeftIcon, lefticon,  hover = false, rightIcon: RightIcon, righticon }) => {
+const Button = ({
+  className,
+  title,
+  onClick,
+  leftIcon: LeftIcon,
+  lefticon,
+  hover = false,
+  rightIcon: RightIcon,
+  righticon,
+  textStyle,
+  ...props
+}) => {
   const handleClick = (e) => {
     e.preventDefault();
     onClick();
@@ -21,24 +32,23 @@ const Button = ({ className, title, onClick, leftIcon: LeftIcon, lefticon,  hove
       transition={{
         layout: { duration: 0.25, ease: "easeOut" },
       }}
-      whileHover={hover ? "hover" : undefined} 
+      whileHover={hover ? "hover" : undefined}
+      {...props}
     >
-
       {LeftIcon && <LeftIcon className={twMerge(lefticon, "icon ")} />}
 
       <motion.span
-        key={title} 
-        initial={{ opacity: 0, x: -4 }} 
+        key={title}
+        initial={{ opacity: 0, x: -4 }}
         animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: 4 }} 
+        exit={{ opacity: 0, x: 4 }}
         transition={{ duration: 0.15, ease: "easeOut" }}
-        className="whitespace-nowrap"
+        className={twMerge("whitespace-nowrap",textStyle)}
       >
         {title}
       </motion.span>
 
       {RightIcon && <RightIcon className={twMerge(righticon, "icon ")} />}
-
     </motion.button>
   );
 };

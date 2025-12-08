@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ArrowRight from "../icons/arrowRight";
 import MenuIcon from "./menu-icon";
 import { useMenuModal } from "../../store/useMenuModal";
+import { preloadCraft } from "../../pages/api-craft/craft";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Header = () => {
     >
       <div
         className={twMerge(
-          "md:w-[54rem] lg:w-4xl xl:w-7xl",
+          "md:w-[48rem] lg:w-4xl xl:w-7xl",
           "mx-auto px-4",
           "grid grid-cols-3 "
         )}
@@ -64,6 +65,7 @@ const Header = () => {
             <Button
               className="py-3 font-extrabold md:flex hidden"
               onClick={handleNavigation}
+              onMouseEnter={() => preloadCraft()}
               title="Get Started"
               rightIcon={ArrowRight}
               righticon="group-hover:translate-x-2 transition-transform"
@@ -75,7 +77,6 @@ const Header = () => {
           )}
         </div>
       </div>
-
     </header>
   );
 };

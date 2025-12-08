@@ -11,7 +11,7 @@ const CodeSample = ({
    const codeString = codeSnippets[apiMethod]?.[styleType]?.(url) || "";
 
   return (
-    <div className="p-6 overflow-x-auto bg-[#1e1e1e]">
+    <div className="p-3 md:p-6 overflow-x-auto bg-terminal">
       <SyntaxHighlighter
         language="javascript"
         style={oneDark}

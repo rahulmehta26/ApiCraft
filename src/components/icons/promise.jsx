@@ -1,7 +1,7 @@
 import { twMerge } from "tailwind-merge";
 import { motion } from "motion/react";
-import { inViewAnimation } from "../../utils/inview-animation";
-import { pathAnimation } from "../../utils/path-animation";
+import { pathAnimation } from "../../animations/path-animation";
+import { inViewAnimation } from "../../animations/inview-animation";
 
 const PromiseIcon = ({ className }) => {
   return (

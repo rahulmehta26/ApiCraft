@@ -6,7 +6,11 @@ const Input = ({ val, onChange, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit();
+
+    if (val?.trim()) {
+      
+      onSubmit();
+    }
   };
 
   return (
@@ -24,7 +28,7 @@ const Input = ({ val, onChange, onSubmit }) => {
         onChange={onChange}
         placeholder="craft here..."
         className={twMerge(
-          "w-full md:py-4 py-2 md:pl-8 pl-4",
+          "w-full md:py-4 py-2 md:pl-6 lg:pl-8 pl-4",
           "md:text-2xl text-md font-semibold text-foreground",
           "md:placeholder:text-2xl placeholder:text-md placeholder:text-muted-foreground caret-foreground ",
           "outline outline-none"
@@ -33,7 +37,7 @@ const Input = ({ val, onChange, onSubmit }) => {
 
       <button
         className={twMerge(
-          "h-full w-14 md:w-28 md:py-4 py-2",
+          "h-full w-14 md:w-20 lg:w-28 md:py-4 py-2",
           "bg-foreground cursor-pointer ",
           "flex justify-center items-center",
           "group"

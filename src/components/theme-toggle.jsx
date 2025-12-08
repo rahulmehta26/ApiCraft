@@ -1,8 +1,8 @@
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import Sun from "./icons/sun";
 import Moon from "./icons/moon";
-import { useEffect, useState } from "react";
 
 function getInitialTheme() {
   if (typeof window === "undefined") return "light";
@@ -14,13 +14,18 @@ function getInitialTheme() {
   return prefersDark ? "dark" : "light";
 }
 
-const ThemeToggle = ({className, iconStyle}) => {
+const ThemeToggle = ({ className, iconStyle }) => {
   const [theme, setTheme] = useState(getInitialTheme);
 
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.toggle("dark", theme === "dark");
-    root.classList.toggle("light", theme === "light");
+    if (theme === "dark") {
+      root.classList.add("dark");
+      root.classList.remove("light");
+    } else {
+      root.classList.add("light");
+      root.classList.remove("dark");
+    }
     window.localStorage.setItem("theme", theme);
   }, [theme]);
 

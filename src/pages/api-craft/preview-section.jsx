@@ -1,15 +1,14 @@
 import { twMerge } from "tailwind-merge";
+import { motion } from "motion/react";
 import AiIcon from "../../components/icons/ai";
 import Grid from "../../components/icons/grid";
 import Database from "../../components/icons/database";
 import PreviewJSON from "../../components/ui/api-preview-json";
 import PreviewCard from "../../components/ui/api-preview-card";
 import Button from "../../components/ui/button";
-import { useCraftToggles } from "../../hooks/useCraftToggles";
+import { parentAnimations } from "../../animations/parent-animation";
 
-const PreviewSection = ({ arrayToRender }) => {
-
-  const { uiShow, toggleUiShow } = useCraftToggles();
+const PreviewSection = ({ arrayToRender, uiShow, toggleUiShow }) => {
 
   if (arrayToRender.length === 0) return null;
 
@@ -51,17 +50,18 @@ const PreviewSection = ({ arrayToRender }) => {
         {uiShow === "json" ? (
           <PreviewJSON data={arrayToRender} />
         ) : (
-          <div
+          <motion.div
             className={twMerge(
               " grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 ",
               "place-items-center gap-x-3 gap-y-8"
-            )}
+              )}
+              {...parentAnimations.staggerParent}
           >
             {arrayToRender &&
               arrayToRender
                 ?.slice(0, 5)
                 ?.map((item, index) => <PreviewCard key={index} data={item} />)}
-          </div>
+          </motion.div>
         )}
       </div>
     </div>

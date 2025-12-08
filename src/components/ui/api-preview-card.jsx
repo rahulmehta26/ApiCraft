@@ -8,6 +8,7 @@ import {
   getTitle,
 } from "../../utils/get-data";
 import NoImage from "../../assets/noImage.jpg";
+import { parentAnimations } from "../../animations/parent-animation";
 
 const PreviewCard = ({ data }) => {
 
@@ -19,15 +20,7 @@ const PreviewCard = ({ data }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{
-        once: false,
-        amount: 0.2,
-      }}
-      transition={{
-        duration: 0.8,
-      }}
+      {...parentAnimations?.staggerItem}
       className={twMerge(
         "w-[15rem] h-auto",
         "border-4 border-foreground ",

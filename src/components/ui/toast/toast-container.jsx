@@ -1,4 +1,4 @@
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "motion/react";
 import { useToastStore } from "../../../store/useToastStore";
 import { Toast } from "./toast";
 

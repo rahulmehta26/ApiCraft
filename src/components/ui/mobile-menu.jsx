@@ -24,6 +24,16 @@ const itemVariants = {
 const MobileMenu = ({ isOpen, toggleState }) => {
   const navigate = useNavigate();
 
+  const getStarted = () => {
+    navigate("/craft");
+    toggleState();
+  };
+
+  const handleNavigation = (href) => {
+    toggleState();
+    scrollToView(href);
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -48,10 +58,7 @@ const MobileMenu = ({ isOpen, toggleState }) => {
               {navItems?.map((link) => (
                 <motion.h3
                   key={link?.id}
-                  onClick={() => {
-                    toggleState();
-                    scrollToView(link?.href);
-                  }}
+                  onClick={() => handleNavigation(link?.href)}
                   variants={itemVariants}
                   className="text-lg font-medium text-foreground"
                 >
@@ -63,7 +70,7 @@ const MobileMenu = ({ isOpen, toggleState }) => {
             <motion.div variants={itemVariants}>
               <Button
                 className="py-3 font-extrabold"
-                onClick={() => {navigate("/craft"), toggleState()}}
+                onClick={getStarted}
                 title="Get Started"
                 rightIcon={ArrowRight}
                 righticon="group-hover:translate-x-2 transition-transform"

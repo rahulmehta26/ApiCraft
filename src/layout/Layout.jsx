@@ -14,7 +14,7 @@ const Layout = () => {
   return (
     <div
       className={twMerge(
-        "min-h-screen md:w-[54rem] lg:w-4xl xl:w-7xl relative mx-auto"
+        "min-h-screen md:w-[48rem] lg:w-4xl xl:w-7xl relative mx-auto"
       )}
     >
       <div

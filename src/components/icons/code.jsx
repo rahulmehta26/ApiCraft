@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import { motion } from "motion/react";
-import { inViewAnimation } from "../../utils/inview-animation";
+import { inViewAnimation } from "../../animations/inview-animation";
 
 const Code = ({ className }) => {
   return (

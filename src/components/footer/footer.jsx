@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer className="relative border-t-4 border-foreground py-12">
       <div className="container mx-auto">
-        <div className="grid md:grid-cols-3 gap-8 md:justify-items-center mb-8">
+        <div className="grid md:grid-cols-3 pl-4 md:pl-0 gap-8 md:justify-items-center mb-8">
           <div className="space-y-4">
             <h3 className="font-bold text-xl text-foreground">API Craft</h3>
             <p className="text-sm font-clash text-muted-foreground leading-relaxed">
@@ -22,7 +22,7 @@ const Footer = () => {
                 return (
                   <li key={id}>
                     <Link
-                      href={href}
+                      to={href}
                       className="text-sm font-clash text-muted-foreground hover:text-foreground transition-colors"
                     >
                       {title}
