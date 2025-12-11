@@ -31,8 +31,6 @@ const App = () => {
           }
         />
 
-      </Route>
-
         <Route
           path="*"
           element={
@@ -41,6 +39,8 @@ const App = () => {
             </Suspense>
           }
       />
+      </Route>
+
       
     </Routes>
   );

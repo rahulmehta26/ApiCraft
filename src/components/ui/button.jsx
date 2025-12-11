@@ -6,10 +6,10 @@ const Button = ({
   title,
   onClick,
   leftIcon: LeftIcon,
-  lefticon,
+  leftIconStyle,
   hover = false,
   rightIcon: RightIcon,
-  righticon,
+  rightIconStyle,
   textStyle,
   ...props
 }) => {
@@ -35,7 +35,7 @@ const Button = ({
       whileHover={hover ? "hover" : undefined}
       {...props}
     >
-      {LeftIcon && <LeftIcon className={twMerge(lefticon, "icon ")} />}
+      {LeftIcon && <LeftIcon className={twMerge(leftIconStyle, "icon ")} />}
 
       <motion.span
         key={title}
@@ -48,7 +48,7 @@ const Button = ({
         {title}
       </motion.span>
 
-      {RightIcon && <RightIcon className={twMerge(righticon, "icon ")} />}
+      {RightIcon && <RightIcon className={twMerge(  rightIconStyle, "icon ")} />}
     </motion.button>
   );
 };

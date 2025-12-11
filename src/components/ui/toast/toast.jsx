@@ -64,11 +64,7 @@ export const Toast = ({ message, type, duration, id }) => {
 
   useEffect(() => {
     startTimer();
-    return () => {
-      clearTimer();
-
-      remainingRef.current = 0;
-    };
+    return () => clearTimer();
   }, [startTimer, clearTimer]);
 
   return (

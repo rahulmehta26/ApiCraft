@@ -47,10 +47,10 @@ const CodeSnippetSection = () => {
         <div className={twMerge("text-center mb-16 space-y-4")}>
           <h2
             className={twMerge(
-              "font-bold font-comico text-4xl md:text-6xl text-balance"
+              "font-bold font-comico text-4xl md:text-6xl leading-normal text-balance"
             )}
           >
-            Ready-to-Ship <span className={twMerge("gradient-text")}>Code</span>
+             Production-Ready <span className={twMerge("gradient-text")}>Code</span>
           </h2>
           <p
             className={twMerge(
@@ -58,8 +58,8 @@ const CodeSnippetSection = () => {
               "text-lg font-clash text-muted-foreground text-pretty"
             )}
           >
-            Copy clean, optimized code with error handling and best practices
-            built-in
+            Copy clean, optimized code with error handling and best practices built-in. 
+            Ship faster with code that just works.
           </p>
         </div>
 

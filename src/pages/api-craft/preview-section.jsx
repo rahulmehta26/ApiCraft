@@ -9,11 +9,15 @@ import Button from "../../components/ui/button";
 import { parentAnimations } from "../../animations/parent-animation";
 
 const PreviewSection = ({ arrayToRender, uiShow, toggleUiShow }) => {
-
   if (arrayToRender.length === 0) return null;
 
   return (
-    <div className=" my-16 space-y-8 md:space-y-16 ">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+      className=" my-16 space-y-8 md:space-y-16 "
+    >
       <div className=" flex flex-col md:flex-row justify-between items-center gap-6 ">
         <h2 className="text-2xl md:text-3xl font-mono font-bold flex items-center gap-2">
           All Data Fields
@@ -28,7 +32,7 @@ const PreviewSection = ({ arrayToRender, uiShow, toggleUiShow }) => {
             title="AI"
             onClick={toggleUiShow}
             leftIcon={AiIcon}
-            lefticon=" text-purple "
+            leftIconStyle=" text-purple "
             hover={true}
           />
 
@@ -40,7 +44,7 @@ const PreviewSection = ({ arrayToRender, uiShow, toggleUiShow }) => {
             title={uiShow === "json" ? "Card View" : "RAW json"}
             onClick={toggleUiShow}
             leftIcon={uiShow === "json" ? Grid : Database}
-            lefticon="dark:text-secondary text-primary"
+            leftIconStyle="dark:text-secondary text-primary"
             hover={true}
           />
         </div>
@@ -54,8 +58,8 @@ const PreviewSection = ({ arrayToRender, uiShow, toggleUiShow }) => {
             className={twMerge(
               " grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 ",
               "place-items-center gap-x-3 gap-y-8"
-              )}
-              {...parentAnimations.staggerParent}
+            )}
+            {...parentAnimations.staggerParent}
           >
             {arrayToRender &&
               arrayToRender
@@ -64,7 +68,7 @@ const PreviewSection = ({ arrayToRender, uiShow, toggleUiShow }) => {
           </motion.div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

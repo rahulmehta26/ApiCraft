@@ -3,14 +3,10 @@ import Arrow from "../icons/arrow";
 import { motion } from "motion/react";
 
 const Input = ({ val, onChange, onSubmit }) => {
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (val?.trim()) {
-      
-      onSubmit();
-    }
+    onSubmit();
   };
 
   return (
@@ -23,10 +19,10 @@ const Input = ({ val, onChange, onSubmit }) => {
       )}
     >
       <input
-        type="url"
+        type="text"
         value={val}
         onChange={onChange}
-        placeholder="craft here..."
+        placeholder="paste to peek..."
         className={twMerge(
           "w-full md:py-4 py-2 md:pl-6 lg:pl-8 pl-4",
           "md:text-2xl text-md font-semibold text-foreground",

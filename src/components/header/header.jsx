@@ -21,14 +21,14 @@ const Header = () => {
   return (
     <header
       className={twMerge(
-        "bg-white/60 border-b-[6px] border-b-foreground w-full py-4",
+        "bg-white/60 border-b-[6px] border-b-foreground  py-4",
         "fixed top-0 right-0 left-0 z-[999] ",
         "backdrop-blur-[0.5rem] supports-[backdrop-filter]:bg-background/80"
       )}
     >
       <div
         className={twMerge(
-          "md:w-[48rem] lg:w-4xl xl:w-7xl",
+          "md:w-[46rem] lg:w-4xl xl:w-7xl",
           "mx-auto px-4",
           "grid grid-cols-3 "
         )}
@@ -68,7 +68,7 @@ const Header = () => {
               onMouseEnter={() => preloadCraft()}
               title="Get Started"
               rightIcon={ArrowRight}
-              righticon="group-hover:translate-x-2 transition-transform"
+              rightIconStyle="group-hover:translate-x-2 transition-transform"
             />
           )}
 

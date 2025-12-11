@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { motion } from "motion/react";
 import { TrafficLight } from "../../components/ui/traffic-light";
 import { useLocation, useNavigate } from "react-router-dom";
 import Refresh from "../../components/icons/refresh";
@@ -46,7 +45,7 @@ const ErrorState = () => {
     if (validRoutes.includes(path)) {
       navigate(path);
     } else {
-      navigate("*");
+      addToast(`Route "${path}" not found.`, "error",);
     }
   };
 

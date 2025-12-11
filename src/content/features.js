@@ -6,30 +6,30 @@ import Link from "../components/icons/link";
 export const features = [
   {
     icon: Link,
-    title: "Paste Your API",
+    title: "Peek Into Any API",
     description:
-      "Drop any REST API URL and let API Craft instantly fetch and format the response. Supports all HTTP methods.",
+      "Drop any REST API URL and instantly peek inside. See your data in beautiful, interactive cards with zero configuration required.",
     color: "primary",
   },
   {
     icon: Code,
-    title: "Choose Fetch or Axios",
+    title: "Generate Perfect Code",
     description:
-      "Pick your favorite HTTP client. Instantly generate clean, production-ready code with Fetch or Axios.",
+      "Instantly generate production-ready code in Fetch, Axios. Complete with error handling and best practices built-in.",
     color: "green-50",
   },
   {
     icon: Grid,
     title: "Visual Data Preview",
     description:
-      "See your API response beautifully structured — clean cards, collapsible views, and smooth animations.",
+      "Transform API responses into stunning visual cards. Smart layouts, smooth animations, and collapsible views make data exploration delightful.",
     color: "primary",
   },
   {
     icon: Copy,
-    title: "Copy and Go",
+    title: "Copy and Ship",
     description:
-      "Grab your optimized code in one click — includes error handling, async/await support.",
+      "One-click copying of optimized code. Includes async/await support, comprehensive error handling.",
     color: "green-50",
   },
 ];

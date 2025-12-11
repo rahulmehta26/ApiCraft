@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { codeSnippets } from "../utils/code-snippet";
 
 export const useCraftToggles = () => {
   const [urls, setUrls] = useState("");
@@ -20,6 +21,8 @@ export const useCraftToggles = () => {
   };
 
   const handleCopy = () => {
+    const codeString = codeSnippets[apiMethod]?.[promise]?.(urls) || "";
+    navigator.clipboard.writeText(codeString);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

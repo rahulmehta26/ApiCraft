@@ -11,12 +11,12 @@ const Features = () => {
       className="relative py-32 overflow-hidden">
       <div className="container relative z-10 mx-auto px-4">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="font-bold font-comico text-4xl md:text-6xl text-balance">
+          <h2 className="font-bold font-comico text-4xl md:text-6xl leading-normal text-balance">
             Everything You Need to{" "}
-            <span className={twMerge("gradient-text")}>Craft APIs</span>
+            <span className={twMerge("gradient-text")}>Peek Into APIs</span>
           </h2>
           <p className="text-lg font-clash text-muted-foreground max-w-2xl mx-auto text-pretty">
-            Four powerful features that transform how you work with APIs
+            Four powerful features that make API exploration effortless
           </p>
         </div>
 
@@ -33,7 +33,12 @@ const Features = () => {
                 )}
               >
                 <div
-                  className={`inline-flex h-14 w-14 items-center justify-center border-4 border-foreground bg-${feature.color} mb-4 group-hover:scale-110 transition-transform`}
+                  className={twMerge(
+                    "h-14 w-14  border-4 border-foreground mb-4",
+                    "group-hover:scale-110 transition-transform",
+                    "inline-flex items-center justify-center ",
+                    feature.color === 'primary' ? 'bg-primary' : 'bg-green-50'
+                  )}
                 >
                   <Icon
                     className={`h-7 w-7 text-${feature.color}-foreground`}

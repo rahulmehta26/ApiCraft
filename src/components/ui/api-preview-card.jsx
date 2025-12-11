@@ -49,6 +49,7 @@ const Image = ({ image }) => {
   return (
     <img
       src={image || NoImage}
+      alt="Image"
       className=" w-full h-fit object-cover group-hover:scale-105 transition-all duration-300 "
     />
   );

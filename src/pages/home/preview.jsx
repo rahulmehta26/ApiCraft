@@ -17,11 +17,11 @@ const Preview = () => {
       className="relative py-32 bg-muted/70 mask-preview ">
       <motion.div {...parentAnimations?.fadeInUp} className="container mx-auto px-4">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="font-bold font-comico text-4xl md:text-6xl text-balance">
-            Visual  <span className={twMerge("gradient-text")}>Data Preview</span>
+          <h2 className="font-bold font-comico text-4xl md:text-6xl leading-normal text-balance">
+             Peek Inside <span className={twMerge("gradient-text")}>Your Data</span>
           </h2>
           <p className="text-lg font-clash text-muted-foreground max-w-2xl mx-auto text-pretty">
-            Visualize your API responses in stunning, animated cards
+            Transform API responses into stunning visual previews with smart card layouts
           </p>
         </div>
 

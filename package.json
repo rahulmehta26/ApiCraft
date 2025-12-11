@@ -1,8 +1,18 @@
 {
-  "name": "apicraft",
+  "name": "apipeek",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "Peek Inside Your APIs - Beautiful API testing and visualization tool",
+  "keywords": [
+    "api",
+    "testing",
+    "visualization",
+    "preview",
+    "apipeek",
+    "api-viewer",
+    "developer-tools"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",

@@ -7,19 +7,16 @@ import { getApiData } from "../../utils/get-api-data";
 import EmptyState from "../../components/ui/empty-state";
 import { findFirstArray } from "../../utils/finding-array";
 import Loader from "../../components/ui/loader";
-import { parentAnimations } from "../../animations/parent-animation";
 import { useToastStore } from "../../store/useToastStore";
-import { scrollToView } from "../../utils/scroll-to-view";
 import CodeSnippetSectionCraft from "./code-snippet-section-craft";
 import PreviewSection from "./preview-section";
 import { useCraftToggles } from "../../hooks/useCraftToggles";
 import { isValidUrl } from "../../utils/url-valid-checker";
-import pageTransition from "../../animations/page-transition";
+import { validateArrayData } from "../../utils/validate-array-data";
 
 export const preloadCraft = () => import("./craft");
 
 const Craft = () => {
-  
   const {
     urls,
     setUrls,
@@ -32,7 +29,6 @@ const Craft = () => {
     uiShow,
     toggleUiShow,
   } = useCraftToggles();
-  const addToast = useToastStore((state) => state.addToast);
 
   const { data, isLoading, isError, refetch, error } = useQuery({
     queryKey: ["apiData", urls],
@@ -40,48 +36,42 @@ const Craft = () => {
     enabled: false,
   });
 
+  const addToast = useToastStore((state) => state.addToast);
+
   const arrayToRender = useMemo(() => findFirstArray(data), [data]);
 
   useEffect(() => {
     if (isError && error) {
-      addToast(error?.message || "An error occurred", "error");
-      return; 
+      let msg = error?.message || "An error occurred";
+      msg = msg.replace(/^AxiosError:\s*/i, "");
+      addToast(msg, "error");
+      return;
     }
 
     if (!data) return;
 
-    if (!arrayToRender) {
-      addToast("No data found.", "info");
-    } else if (Array.isArray(arrayToRender) && arrayToRender.length === 0) {
-      addToast("No data found.", "info");
-    } else if (
-      typeof arrayToRender === "object" &&
-      Object.keys(arrayToRender).length === 0
-    ) {
-      addToast("No details available.", "info");
+    const validation = validateArrayData(arrayToRender);
+    if (!validation.isValid) {
+      addToast(validation.message, "info");
     }
-  }, [data, isError, error?.message, arrayToRender, addToast]);
+  }, [data, isError, error, arrayToRender, addToast]);
 
-  const handleSubmit = async (href) => {
+  const handleSubmit = async () => {
     if (!urls.trim()) {
       addToast("Please enter something to craft", "info");
       return;
     }
 
     if (!isValidUrl(urls)) {
-    addToast(
-      "Please enter a valid URL (must start with http:// or https://)",
-      "error"
-    );
-    return;
+      addToast("Please enter a valid URL!", "error");
+      return;
     }
-    
+
     try {
-    scrollToView(href);
-    await refetch();
-  } catch (error) {
-    
-  }
+      await refetch();
+    } catch (error) {
+      throw new Error(error);
+    }
   };
 
   if (isLoading) return <Loader loading={isLoading} />;
@@ -104,7 +94,7 @@ const Craft = () => {
           transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
           className="text-start mb-16 space-y-12"
         >
-          <h2 className="font-bold max-w-4xl font-comico text-4xl md:text-7xl text-balance">
+          <h2 className="font-bold max-w-4xl font-comico text-4xl md:text-7xl leading-normal text-balance">
             Paste an API. Get Code.{" "}
             <span className="gradient-text">Preview All Data.</span>
           </h2>
@@ -113,11 +103,12 @@ const Craft = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}>
+          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+        >
           <Input
             val={urls}
             onChange={(e) => setUrls(e.target.value)}
-            onSubmit={() => handleSubmit("code-snippet")}
+            onSubmit={handleSubmit}
           />
         </motion.div>
 
@@ -157,4 +148,4 @@ const Craft = () => {
   );
 };
 
-export default pageTransition(Craft);
+export default Craft;

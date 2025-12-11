@@ -9,17 +9,23 @@ import Hexagon from "../../components/icons/hexagon";
 import PromiseIcon from "../../components/icons/promise";
 import AsyncIcon from "../../components/icons/async";
 
-const CodeSnippetSectionCraft = ({ 
-  url, 
-  apiMethod, 
-  toggleApiMethod, 
-  promise, 
-  togglePromise, 
-  copied, 
-  handleCopy  }) => {
-
+const CodeSnippetSectionCraft = ({
+  url,
+  apiMethod,
+  toggleApiMethod,
+  promise,
+  togglePromise,
+  copied,
+  handleCopy,
+}) => {
   return (
-    <div id="code-snippet" className="my-16 space-y-8 md:space-y-16 ">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+      id="code-snippet"
+      className="my-16 space-y-8 md:space-y-16 "
+    >
       <div className=" flex flex-col md:flex-row justify-between gap-6 items-center ">
         <h2 className="text-2xl md:text-3xl font-mono font-bold flex items-center gap-2">
           <Code className="h-6 w-6 text-primary" animate={true} />
@@ -59,7 +65,7 @@ const CodeSnippetSectionCraft = ({
       >
         <CodeSample url={url} apiMethod={apiMethod} styleType={promise} />
       </CodeTerminal>
-    </div>
+    </motion.div>
   );
 };
 

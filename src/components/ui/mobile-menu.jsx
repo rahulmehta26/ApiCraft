@@ -1,10 +1,11 @@
+import { twMerge } from "tailwind-merge";
 import { AnimatePresence, motion } from "motion/react";
-import React from "react";
 import { navItems } from "../../content/navbar";
 import Button from "./button";
 import ArrowRight from "../icons/arrowRight";
 import { useNavigate } from "react-router-dom";
 import { scrollToView } from "../../utils/scroll-to-view";
+import ThemeToggle from "../theme-toggle";
 
 const parentVariants = {
   open: {
@@ -67,13 +68,21 @@ const MobileMenu = ({ isOpen, toggleState }) => {
               ))}
             </nav>
 
-            <motion.div variants={itemVariants}>
+            <motion.div
+              className={twMerge("flex justify-start items-center gap-x-6 ")}
+              variants={itemVariants}
+            >
               <Button
                 className="py-3 font-extrabold"
                 onClick={getStarted}
                 title="Get Started"
                 rightIcon={ArrowRight}
-                righticon="group-hover:translate-x-2 transition-transform"
+                rightIconStyle="group-hover:translate-x-2 transition-transform"
+              />
+
+              <ThemeToggle
+                className={twMerge("p-2 border-4")}
+                iconStyle="w-6 h-6"
               />
             </motion.div>
 

@@ -18,7 +18,6 @@ const CodeTerminal = ({
           " neo-shadow-lg overflow-hidden"
         )}
       >
-        {/* Code editor header */}
         <div
           className={twMerge(
             "border-b-4 border-foreground bg-[#2d2d2d] px-6 py-3",

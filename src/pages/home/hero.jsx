@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import ArrowRight from "../../components/icons/arrowRight";
 import { variants } from "../../content/heroVariant";
 import { twMerge } from "tailwind-merge";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/button";
-import { parentAnimations } from "../../animations/parent-animation";
 import { preloadCraft } from "../api-craft/craft";
 
 const Hero = () => {
@@ -19,33 +17,29 @@ const Hero = () => {
       )}
     >
       <div className="container relative z-10 mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 ">
+        <div className="grid lg:grid-cols-12 content-between gap-12 ">
           <motion.div
-            className="space-y-8"
+            className="space-y-8 col-span-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <h1
-              className={twMerge(
-                "font-bold font-comico text-5xl md:text-7xl leading-tight text-balance"
-              )}
-            >
-              Craft APIs into{" "}
+            <h1 className={twMerge("font-bold font-comico text-5xl md:text-7xl leading-tight text-balance")}>
+              Peek Inside Your{" "}
               <span className="relative inline-block">
-                <span className={twMerge("gradient-text")}>Code</span>
+                <span className={twMerge("gradient-text")}>APIs</span>
               </span>{" "}
               Instantly
             </h1>
 
             <p
               className={twMerge(
-                "text-lg font-clash text-muted-foreground leading-relaxed max-w-xl text-pretty"
+                "md:text-lg text-xs md:max-w-2xl font-clash text-muted-foreground leading-loose text-pretty"
               )}
             >
-              Paste any API, choose your method, preview key data, and copy
-              ready-to-use code in seconds. Transform APIs into production-ready
-              code with zero configuration.
+              Paste any API and instantly preview beautiful data visualizations. <br/>
+              Generate production-ready code in Fetch, Axios, Python, or cURL. <br/>
+              Zero configuration required.
             </p>
 
               <Button
@@ -54,7 +48,7 @@ const Hero = () => {
                 title="Get Started"
                 rightIcon={ArrowRight}
                 onMouseEnter={() => preloadCraft()}
-                righticon="group-hover:translate-x-2 transition-transform"
+                rightIconStyle="group-hover:translate-x-2 transition-transform"
               />
           </motion.div>
 
@@ -62,14 +56,15 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="relative space-y-8 hidden lg:block">
+            className="relative space-y-8 col-span-4 hidden lg:block">
+            
             <PreviewCard className="absolute top-0 right-0" />
             <PreviewCard
-              className="absolute top-32 right-20"
+              className="absolute top-[10rem] right-20"
               variant="code"
             />
             <PreviewCard
-              className="absolute top-64 right-10"
+              className="absolute top-[19rem] right-10"
               variant="data"
             />
           </motion.div>
@@ -79,13 +74,7 @@ const Hero = () => {
   );
 };
 
-const PreviewCard = ({ delay = 0, className = "", variant = "default" }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), delay * 1000);
-    return () => clearTimeout(timer);
-  }, [delay]);
+const PreviewCard = ({className, variant = "default" }) => {
 
   const selected = variants[variant];
 

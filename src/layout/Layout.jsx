@@ -14,7 +14,7 @@ const Layout = () => {
   return (
     <div
       className={twMerge(
-        "min-h-screen md:w-[48rem] lg:w-4xl xl:w-7xl relative mx-auto"
+        "min-h-screen md:w-[46rem] lg:w-4xl xl:w-7xl relative mx-auto"
       )}
     >
       <div
@@ -23,8 +23,6 @@ const Layout = () => {
           "absolute inset-0 pointer-events-none"
         )}
       />
-
-      <ToastContainer />
 
       {isOpen && <MobileMenu isOpen={isOpen} toggleState={toggleModal} />}
 

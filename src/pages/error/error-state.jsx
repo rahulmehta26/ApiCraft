@@ -1,4 +1,3 @@
-import React from "react";
 import ErrorBody from "./error-body";
 import { twMerge } from "tailwind-merge";
 import Minus from "../../components/icons/minus";
@@ -6,7 +5,6 @@ import Minimize from "../../components/icons/minimize";
 import X from "../../components/icons/x";
 import Warning from "../../components/icons/warning";
 import Button from "../../components/ui/button";
-import { useNavigate } from "react-router-dom";
 
 const ErrorState = ({ onRetry, errorMessage }) => {
   const handleClose = () => {

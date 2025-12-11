@@ -26,7 +26,7 @@ const Loader = () => {
               ease: "easeInOut",
             }}
           >
-            Decoding...
+             Peeking inside...
           </motion.span>
         </div>
       </div>
