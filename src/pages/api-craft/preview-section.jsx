@@ -7,9 +7,20 @@ import PreviewJSON from "../../components/ui/api-preview-json";
 import PreviewCard from "../../components/ui/api-preview-card";
 import Button from "../../components/ui/button";
 import { parentAnimations } from "../../animations/parent-animation";
+// import AiSuggestionBanner from "./ai-suggestion-banner";
 
-const PreviewSection = ({ arrayToRender, uiShow, toggleUiShow }) => {
-  if (arrayToRender.length === 0) return null;
+const PreviewSection = ({
+  arrayToRender,
+  uiShow,
+  toggleUiShow,
+  onUseAI,
+  isUsingAI,
+  dataValidation,
+}) => {
+  const hasValidData =
+    arrayToRender &&
+    arrayToRender.length > 0 &&
+    (dataValidation?.isValid || isUsingAI);
 
   return (
     <motion.div
@@ -30,7 +41,7 @@ const PreviewSection = ({ arrayToRender, uiShow, toggleUiShow }) => {
               "border-4 hover:text-background border-foreground px-10 "
             )}
             title="AI"
-            onClick={toggleUiShow}
+            onClick={onUseAI}
             leftIcon={AiIcon}
             leftIconStyle=" text-purple "
             hover={true}
@@ -50,6 +61,12 @@ const PreviewSection = ({ arrayToRender, uiShow, toggleUiShow }) => {
         </div>
       </div>
 
+      {/* <AiSuggestionBanner
+        shouldSuggestAI={shouldSuggestAI}
+        dataValidation={dataValidation}
+        isUsingAI={isUsingAI}
+      /> */}
+
       <div>
         {uiShow === "json" ? (
           <PreviewJSON data={arrayToRender} />
@@ -57,7 +74,7 @@ const PreviewSection = ({ arrayToRender, uiShow, toggleUiShow }) => {
           <motion.div
             className={twMerge(
               " grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 ",
-              "place-items-center gap-x-3 gap-y-8"
+              "place-items-start gap-x-3 gap-y-8"
             )}
             {...parentAnimations.staggerParent}
           >

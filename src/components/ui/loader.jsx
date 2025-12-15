@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 
-const Loader = () => {
+const Loader = ({message = "Peeking inside..."}) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/10 backdrop-blur-xs">
       <div className="bg-background w-72 md:w-80 border-4 border-foreground p-12 neo-shadow">
@@ -26,7 +26,7 @@ const Loader = () => {
               ease: "easeInOut",
             }}
           >
-             Peeking inside...
+             {message}
           </motion.span>
         </div>
       </div>

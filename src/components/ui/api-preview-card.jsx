@@ -12,6 +12,8 @@ import { parentAnimations } from "../../animations/parent-animation";
 
 const PreviewCard = ({ data }) => {
 
+  console.log("data ====>", data)
+
   const imageSrc = getImage(data);
   const title = getTitle(data);
   const description = getDescription(data);

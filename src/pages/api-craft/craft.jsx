@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { motion } from "motion/react";
 import { useQuery } from "@tanstack/react-query";
@@ -13,6 +13,8 @@ import PreviewSection from "./preview-section";
 import { useCraftToggles } from "../../hooks/useCraftToggles";
 import { isValidUrl } from "../../utils/url-valid-checker";
 import { validateArrayData } from "../../utils/validate-array-data";
+import { analyzeApiWithAI } from "../../utils/gemini";
+import {checkIfApiHasData} from "../../utils/ai-data-extractor";
 
 export const preloadCraft = () => import("./craft");
 
@@ -30,6 +32,11 @@ const Craft = () => {
     toggleUiShow,
   } = useCraftToggles();
 
+  const [aiData, setAiData] = useState(null);
+  const [isAIProcessing, setIsAIProcessing] = useState(false);
+  const [shouldSuggestAI, setShouldSuggestAI] = useState(false);
+  const [bannerMessage, setBannerMessage] = useState("");
+
   const { data, isLoading, isError, refetch, error } = useQuery({
     queryKey: ["apiData", urls],
     queryFn: () => getApiData(urls),
@@ -38,7 +45,10 @@ const Craft = () => {
 
   const addToast = useToastStore((state) => state.addToast);
 
-  const arrayToRender = useMemo(() => findFirstArray(data), [data]);
+  const normalArray = useMemo(() => findFirstArray(data), [data]);
+
+  const arrayToRender = aiData || normalArray;
+  const isUsingAI = !!aiData;
 
   useEffect(() => {
     if (isError && error) {
@@ -50,11 +60,31 @@ const Craft = () => {
 
     if (!data) return;
 
-    const validation = validateArrayData(arrayToRender);
+    const validation = validateArrayData(normalArray);
+
     if (!validation.isValid) {
-      addToast(validation.message, "info");
+      const apiHasData = checkIfApiHasData(data);
+
+      if (apiHasData) {
+        setShouldSuggestAI(true);
+
+        if (validation.reason === "empty") {
+          addToast("Couldn't extract data. Try using AI!", "warning", );
+        } else if (validation.reason === "too_many_undefined") {
+          addToast(
+            "Data quality is poor. AI can extract better!",
+            "warning",
+            
+          );
+        }
+      } else {
+        setShouldSuggestAI(false);
+        addToast("This API returned no data.", "info");
+      }
+    } else {
+      setShouldSuggestAI(false);
     }
-  }, [data, isError, error, arrayToRender, addToast]);
+  }, [data, isError, error, normalArray, addToast]);
 
   const handleSubmit = async () => {
     if (!urls.trim()) {
@@ -67,6 +97,9 @@ const Craft = () => {
       return;
     }
 
+    setAiData(null);
+    setShouldSuggestAI(false);
+
     try {
       await refetch();
     } catch (error) {
@@ -74,7 +107,38 @@ const Craft = () => {
     }
   };
 
-  if (isLoading) return <Loader loading={isLoading} />;
+  const handleUseAI = async () => {
+    if (!data) {
+      addToast("Please fetch an API first!", "warning");
+      return;
+    }
+
+    try {
+      setIsAIProcessing(true);
+      addToast("AI is analyzing your API...", "info");
+
+      const aiResult = await analyzeApiWithAI(data);
+
+      if (aiResult.dataArray && aiResult.dataArray.length > 0) {
+        setAiData(aiResult.dataArray);
+        setShouldSuggestAI(false);
+        addToast(
+          `AI extracted ${aiResult.dataArray.length} items successfully!`,
+          "success"
+        );
+      } else {
+        addToast("AI couldn't extract data from this API.", "warning");
+      }
+    } catch (error) {
+      console.error("AI Error:", error);
+      addToast("AI analysis failed. Please try again.", "error");
+    } finally {
+      setIsAIProcessing(false);
+    }
+  };
+
+  if (isLoading) return <Loader message="Fetching API..." />;
+  if (isAIProcessing) return <Loader message="AI is analyzing..." />;
 
   return (
     <section
@@ -112,7 +176,7 @@ const Craft = () => {
           />
         </motion.div>
 
-        {arrayToRender ? (
+        {data ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -131,6 +195,10 @@ const Craft = () => {
               arrayToRender={arrayToRender}
               uiShow={uiShow}
               toggleUiShow={toggleUiShow}
+              onUseAI={handleUseAI}
+              isUsingAI={isUsingAI}
+              shouldSuggestAI={shouldSuggestAI}
+              
             />
           </motion.div>
         ) : (
