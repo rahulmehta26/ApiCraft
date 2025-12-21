@@ -10,7 +10,7 @@ const EmptyState = () => {
     >
       <div className="flex flex-col items-center justify-center text-center gap-6">
         <div>
-          <h3 className="text-3xl font-mono font-bold">Craft Your Code</h3>
+          <h3 className="text-3xl font-mono font-bold">Peek Your Code</h3>
           <p className="text-muted-foreground font-clash mt-2 max-w-xl">
             Paste any API URL above, choose Fetch or Axios, and watch as we
             craft beautifull code snippets and preview all your data fields

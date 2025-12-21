@@ -26,7 +26,7 @@ const Navbar = () => {
             {activeTab === item?.id && (
               <motion.div
                 transition={{
-                  duration: 0.8,
+                  duration: 0.5,
                 }}
                 layoutId="active-pill"
                 className={twMerge(

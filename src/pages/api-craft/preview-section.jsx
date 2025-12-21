@@ -7,6 +7,7 @@ import PreviewJSON from "../../components/ui/api-preview-json";
 import PreviewCard from "../../components/ui/api-preview-card";
 import Button from "../../components/ui/button";
 import { parentAnimations } from "../../animations/parent-animation";
+import { validateArrayData } from "../../utils/data-validators";
 // import AiSuggestionBanner from "./ai-suggestion-banner";
 
 const PreviewSection = ({
@@ -14,13 +15,31 @@ const PreviewSection = ({
   uiShow,
   toggleUiShow,
   onUseAI,
-  isUsingAI,
-  dataValidation,
+  aiDatasets,
+  selectedDatasetIndex,
+  onDatasetChange,
 }) => {
-  const hasValidData =
-    arrayToRender &&
-    arrayToRender.length > 0 &&
-    (dataValidation?.isValid || isUsingAI);
+  const { isValid, message } = validateArrayData(arrayToRender);
+
+  if (!isValid) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.5,
+          ease: "easeOut",
+        }}
+        className="my-16"
+      >
+        <h2>No data to preview</h2>
+
+        <p>{message}</p>
+      </motion.div>
+    );
+  }
+
+  const hasMultipleDatasets = aiDatasets && aiDatasets?.datasets?.length > 1;
 
   return (
     <motion.div
@@ -67,21 +86,56 @@ const PreviewSection = ({
         isUsingAI={isUsingAI}
       /> */}
 
+      {hasMultipleDatasets && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-wrap gap-3"
+        >
+          {aiDatasets.datasets.map((dataset, index) => (
+            <Button
+              key={index}
+              onClick={() => onDatasetChange(index)}
+              className={twMerge(
+                "px-6 py-3 border-4 border-foreground font-bold font-mono text-sm",
+                "neo-shadow-hover transition-all",
+                selectedDatasetIndex === index
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background text-foreground hover:bg-muted"
+              )}
+            >
+              {dataset.label}
+
+              <span className="ml-2 text-xs opacity-70">
+                ({dataset.count || dataset.data.length})
+              </span>
+            </Button>
+          ))}
+        </motion.div>
+      )}
+
       <div>
         {uiShow === "json" ? (
           <PreviewJSON data={arrayToRender} />
         ) : (
           <motion.div
+            key={selectedDatasetIndex}
             className={twMerge(
-              " grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 ",
-              "place-items-start gap-x-3 gap-y-8"
+              " columns-1 md:columns-2 lg:columns-3 xl:columns-4 ",
+              "gap-4"
             )}
             {...parentAnimations.staggerParent}
           >
             {arrayToRender &&
-              arrayToRender
-                ?.slice(0, 5)
-                ?.map((item, index) => <PreviewCard key={index} data={item} />)}
+              arrayToRender?.map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="mb-8 break-inside-avoid flex justify-center"
+                  layout
+                >
+                  <PreviewCard data={item} />
+                </motion.div>
+              ))}
           </motion.div>
         )}
       </div>

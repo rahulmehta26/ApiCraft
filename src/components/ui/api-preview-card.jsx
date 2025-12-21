@@ -7,12 +7,12 @@ import {
   getPrice,
   getTitle,
 } from "../../utils/get-data";
-import NoImage from "../../assets/noImage.jpg";
+import NoImage from "../../assets/noImage.png";
 import { parentAnimations } from "../../animations/parent-animation";
 
 const PreviewCard = ({ data }) => {
 
-  console.log("data ====>", data)
+  console.log( "Data ==>", data);
 
   const imageSrc = getImage(data);
   const title = getTitle(data);
@@ -32,7 +32,7 @@ const PreviewCard = ({ data }) => {
     >
       {imageSrc && <Image image={imageSrc} />}
 
-      <div className=" space-y-3 px-4 pb-4 ">
+      <div className=" space-y-3 px-4 pb-4 flex flex-col flex-wrap ">
         {title && <Title title={title} />}
 
         {description && <Description description={description} />}
@@ -48,11 +48,16 @@ const PreviewCard = ({ data }) => {
 };
 
 const Image = ({ image }) => {
+
+  const imageSrc = typeof image === "string" && image.trim() !== "" ? image : null;
+
+
   return (
     <img
-      src={image || NoImage}
-      alt="Image"
-      className=" w-full h-fit object-cover group-hover:scale-105 transition-all duration-300 "
+      src={imageSrc}
+      onError={(e) => (e.currentTarget.src = NoImage)}
+      alt={ imageSrc ? "Nono" : "Image002" }
+      className=" w-full h-fit object-cover bg-transparent group-hover:scale-105 transition-all duration-300 "
     />
   );
 };
@@ -67,7 +72,7 @@ const Title = ({ title }) => {
 
 const Description = ({ description }) => {
   return (
-    <p className=" text-sm text-muted-foreground font-medium ">{description}</p>
+    <p className=" text-sm w-[100%] text-muted-foreground line-clamp-4 font-medium ">{description}</p>
   );
 };
 
@@ -78,14 +83,14 @@ const Email = ({ email }) => {
 };
 
 const Price = ({ price }) => (
-  <span className="px-2 py-1 text-xs font-semibold bg-primary/10 border border-primary/20 text-primary rounded-md">
+  <span className="px-2 w-fit py-1 text-xs font-semibold bg-primary/10 border border-primary/20 text-primary rounded-md">
     ₹ {price}
   </span>
 );
 
 const Category = ({ category }) => (
-  <span className="px-2 py-1 text-xs font-medium bg-foreground/10 text-foreground rounded-md">
-    {category}
+  <span className="px-2 w-fit py-1 text-xs font-medium bg-foreground/10 text-foreground rounded-md">
+    {category} {" "}
   </span>
 );
 

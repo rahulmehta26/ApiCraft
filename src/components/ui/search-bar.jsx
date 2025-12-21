@@ -21,6 +21,7 @@ const Input = ({ val, onChange, onSubmit }) => {
       <input
         type="text"
         value={val}
+        id="url"
         onChange={onChange}
         placeholder="paste to peek..."
         className={twMerge(

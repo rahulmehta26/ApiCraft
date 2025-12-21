@@ -8,9 +8,10 @@ export const getImage = (data) => {
 export const getTitle = (data) => {
   const key = Object.keys(data).find(
     (k) =>
-      /(title|name|heading|firstName)/i.test(k) && typeof data[k] === "string"
+      /(title|name|heading|firstName|fullName)/i.test(k) &&
+      typeof data[k] === "string"
   );
-  return key ? data[key] : "Untitled";
+  return key ? data[key] : "";
 };
 
 export const getDescription = (data) => {
@@ -20,7 +21,7 @@ export const getDescription = (data) => {
       typeof data[k] === "string"
   );
 
-  if (key) return data[key];
+  return key ? data[key] : "";
 };
 
 export const getPrice = (data) => {

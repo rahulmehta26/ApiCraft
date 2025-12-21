@@ -15,6 +15,7 @@ const Hero = () => {
         "relative min-h-screen overflow-hidden pt-16",
         " flex items-center justify-center"
       )}
+      id="hero"
     >
       <div className="container relative z-10 mx-auto px-4">
         <div className="grid lg:grid-cols-12 content-between gap-12 ">
@@ -38,7 +39,7 @@ const Hero = () => {
               )}
             >
               Paste any API and instantly preview beautiful data visualizations. <br/>
-              Generate production-ready code in Fetch, Axios, Python, or cURL. <br/>
+              Generate production-ready code in Fetch, Axios. <br/>
               Zero configuration required.
             </p>
 

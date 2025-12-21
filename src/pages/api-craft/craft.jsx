@@ -12,9 +12,9 @@ import CodeSnippetSectionCraft from "./code-snippet-section-craft";
 import PreviewSection from "./preview-section";
 import { useCraftToggles } from "../../hooks/useCraftToggles";
 import { isValidUrl } from "../../utils/url-valid-checker";
-import { validateArrayData } from "../../utils/validate-array-data";
 import { analyzeApiWithAI } from "../../utils/gemini";
-import {checkIfApiHasData} from "../../utils/ai-data-extractor";
+import { checkIfApiHasData } from "../../utils/data-validators";
+import { getArrayToRender } from "../../utils/ai-extractor";
 
 export const preloadCraft = () => import("./craft");
 
@@ -32,10 +32,9 @@ const Craft = () => {
     toggleUiShow,
   } = useCraftToggles();
 
-  const [aiData, setAiData] = useState(null);
   const [isAIProcessing, setIsAIProcessing] = useState(false);
-  const [shouldSuggestAI, setShouldSuggestAI] = useState(false);
-  const [bannerMessage, setBannerMessage] = useState("");
+  const [aiDatasets, setAiDatasets] = useState(null);
+  const [selectedDatasetIndex, setSelectedDatasetIndex] = useState(0);
 
   const { data, isLoading, isError, refetch, error } = useQuery({
     queryKey: ["apiData", urls],
@@ -45,60 +44,33 @@ const Craft = () => {
 
   const addToast = useToastStore((state) => state.addToast);
 
-  const normalArray = useMemo(() => findFirstArray(data), [data]);
+  const hasApiData = useMemo(() =>  checkIfApiHasData(data), [data]);
 
-  const arrayToRender = aiData || normalArray;
-  const isUsingAI = !!aiData;
+   const arrayToRender = useMemo(() =>
+    getArrayToRender(data, aiDatasets, selectedDatasetIndex), 
+    [data, aiDatasets, selectedDatasetIndex]
+  );
+
+  const isUsingAI = !!aiDatasets;
 
   useEffect(() => {
     if (isError && error) {
       let msg = error?.message || "An error occurred";
       msg = msg.replace(/^AxiosError:\s*/i, "");
       addToast(msg, "error");
-      return;
     }
-
-    if (!data) return;
-
-    const validation = validateArrayData(normalArray);
-
-    if (!validation.isValid) {
-      const apiHasData = checkIfApiHasData(data);
-
-      if (apiHasData) {
-        setShouldSuggestAI(true);
-
-        if (validation.reason === "empty") {
-          addToast("Couldn't extract data. Try using AI!", "warning", );
-        } else if (validation.reason === "too_many_undefined") {
-          addToast(
-            "Data quality is poor. AI can extract better!",
-            "warning",
-            
-          );
-        }
-      } else {
-        setShouldSuggestAI(false);
-        addToast("This API returned no data.", "info");
-      }
-    } else {
-      setShouldSuggestAI(false);
-    }
-  }, [data, isError, error, normalArray, addToast]);
+  }, [isError, error, addToast]);
 
   const handleSubmit = async () => {
-    if (!urls.trim()) {
-      addToast("Please enter something to craft", "info");
-      return;
-    }
+    if (!urls.trim()) return addToast("Please enter something to craft", "info");
+      
+    
 
-    if (!isValidUrl(urls)) {
-      addToast("Please enter a valid URL!", "error");
-      return;
-    }
+    if (!isValidUrl(urls)) return addToast("Please enter a valid URL!", "error");
+     
 
-    setAiData(null);
-    setShouldSuggestAI(false);
+    setAiDatasets(null);
+    setSelectedDatasetIndex(0);
 
     try {
       await refetch();
@@ -108,30 +80,49 @@ const Craft = () => {
   };
 
   const handleUseAI = async () => {
-    if (!data) {
-      addToast("Please fetch an API first!", "warning");
+    if (!data || !hasApiData) {
+      addToast("API contains no usable data for analysis.", "warning");
       return;
     }
 
     try {
       setIsAIProcessing(true);
-      addToast("AI is analyzing your API...", "info");
+      addToast("AI is analyzing your API...", "info", 2000);
 
       const aiResult = await analyzeApiWithAI(data);
+      console.log("AI Result:", aiResult);
 
-      if (aiResult.dataArray && aiResult.dataArray.length > 0) {
-        setAiData(aiResult.dataArray);
-        setShouldSuggestAI(false);
+      if (aiResult.datasets && aiResult.datasets.length > 0) {
+        setAiDatasets(aiResult);
+        setSelectedDatasetIndex(0);
         addToast(
-          `AI extracted ${aiResult.dataArray.length} items successfully!`,
+          aiResult.datasets.length > 1
+            ? `AI found ${aiResult.datasets.length} datasets! Use tabs to switch.`
+            : `AI extracted ${aiResult.datasets[0].data.length} items!`,
           "success"
         );
       } else {
         addToast("AI couldn't extract data from this API.", "warning");
       }
     } catch (error) {
-      console.error("AI Error:", error);
-      addToast("AI analysis failed. Please try again.", "error");
+      if (
+        error.message?.includes("quota exceeded") ||
+        error.message?.includes("429")
+      ) {
+        addToast(
+          "AI quota exceeded. Please wait and try again.",
+          "error",
+          5000
+        );
+      } else if (error.message?.includes("API key")) {
+        addToast(
+          "Invalid API key. Please check your Gemini API key.",
+          "error",
+          5000
+        );
+      } else {
+        addToast(`AI analysis failed: ${error.message}`, "error");
+      }
     } finally {
       setIsAIProcessing(false);
     }
@@ -176,7 +167,7 @@ const Craft = () => {
           />
         </motion.div>
 
-        {data ? (
+        {data && hasApiData ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -192,13 +183,14 @@ const Craft = () => {
               handleCopy={handleCopy}
             />
             <PreviewSection
-              arrayToRender={arrayToRender}
+              arrayToRender={arrayToRender || []}
               uiShow={uiShow}
               toggleUiShow={toggleUiShow}
               onUseAI={handleUseAI}
               isUsingAI={isUsingAI}
-              shouldSuggestAI={shouldSuggestAI}
-              
+              aiDatasets={aiDatasets}
+              selectedDatasetIndex={selectedDatasetIndex}
+              onDatasetChange={setSelectedDatasetIndex}
             />
           </motion.div>
         ) : (

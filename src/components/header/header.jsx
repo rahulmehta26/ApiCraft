@@ -40,7 +40,7 @@ const Header = () => {
               " md:text-4xl text-2xl font-bold tracking-tighter "
             )}
           >
-            ApiCraft
+            ApiPeek
           </h1>
         </div>
 

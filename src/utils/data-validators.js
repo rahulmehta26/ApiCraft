@@ -1,3 +1,19 @@
+export function checkIfApiHasData(responseData) {
+  if (!responseData) return false;
+
+  if (Array.isArray(responseData) && responseData.length > 0) {
+    return responseData.some((item) => checkIfApiHasData(item));
+  }
+
+  if (typeof responseData === "object" && responseData !== null) {
+    return Object.values(responseData).some((value) =>
+      checkIfApiHasData(value)
+    );
+  }
+
+  return true;
+}
+
 export const validateArrayData = (arrayToRender) => {
   if (!arrayToRender) {
     return { isValid: false, message: "No array data found in response." };

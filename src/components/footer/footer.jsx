@@ -63,7 +63,7 @@ const Footer = () => {
 
         <div className="border-t-4 border-foreground pt-8 text-center">
           <p className="text-sm font-clash text-muted-foreground">
-            © 2025 API Craft. All rights reserved. Built with ❤️ for developers.
+            © 2025 APIPEEK. All rights reserved. Built with ❤️ for developers.
           </p>
         </div>
       </div>
