@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { SYSTEM_PROMPT } from "../content/promt";
+import { SYSTEM_PROMPT } from "../content/prompt";
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_KEY);
 
@@ -20,8 +20,7 @@ export async function analyzeApiWithAI(apiResponse) {
 ${truncated}`;
 
     const result = await geminiModel.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const text = result.response.text();
 
     let cleanedText = text.trim();
 

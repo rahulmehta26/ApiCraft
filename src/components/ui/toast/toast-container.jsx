@@ -6,7 +6,7 @@ export const ToastContainer = () => {
   const toasts = useToastStore((state) => state.toasts);
 
   return (
-    <span className="pointer-events-none fixed top-4 right-4 z-[9999] h-0 space-y-3">
+    <span className="pointer-events-none fixed top-4 md:right-4 right-2 left-2 md:left-auto z-[9999] h-0 space-y-3">
       <AnimatePresence>
         {toasts.map((toast) => (
           <div key={toast.id} className="pointer-events-auto">

@@ -20,7 +20,7 @@ const Navbar = () => {
           <button
             key={item?.id}
             onClick={() => { setActiveTab(item?.id); scrollToView(item?.href)}}
-            className={twMerge("relative cursor-pointer px-6 py-2")}
+            className={twMerge("relative cursor-pointer px-6 lg:px-4 xl:px-6 py-2")}
             type="button"
           >
             {activeTab === item?.id && (

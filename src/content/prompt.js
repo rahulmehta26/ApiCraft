@@ -13,7 +13,7 @@ EXPLORATION RULES:
 Common nesting patterns to explore:
   * response.data.items[]
   * data.results[].items[]
-  * data.cards[].card.card.gridElements.infoWithStyle.restaurants[]
+  * data.cards[].card.card.gridElements.infoWithStyle[]
   * payload.content[].sections[].items[]
   * results[].data.list[]
   * body.response.docs[]

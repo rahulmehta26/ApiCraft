@@ -8,7 +8,8 @@ import PreviewCard from "../../components/ui/api-preview-card";
 import Button from "../../components/ui/button";
 import { parentAnimations } from "../../animations/parent-animation";
 import { validateArrayData } from "../../utils/data-validators";
-// import AiSuggestionBanner from "./ai-suggestion-banner";
+import AiSuggestionBanner from "./ai-suggestion-banner";
+import { useToastStore } from "../../store/useToastStore";
 
 const PreviewSection = ({
   arrayToRender,
@@ -21,22 +22,10 @@ const PreviewSection = ({
 }) => {
   const { isValid, message } = validateArrayData(arrayToRender);
 
-  if (!isValid) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.5,
-          ease: "easeOut",
-        }}
-        className="my-16"
-      >
-        <h2>No data to preview</h2>
+  const addToast = useToastStore((state) => state?.addToast);
 
-        <p>{message}</p>
-      </motion.div>
-    );
+  if (!isValid) {
+    addToast(message, error);
   }
 
   const hasMultipleDatasets = aiDatasets && aiDatasets?.datasets?.length > 1;
@@ -80,11 +69,13 @@ const PreviewSection = ({
         </div>
       </div>
 
-      {/* <AiSuggestionBanner
-        shouldSuggestAI={shouldSuggestAI}
-        dataValidation={dataValidation}
-        isUsingAI={isUsingAI}
-      /> */}
+      {!isValid && (
+        <AiSuggestionBanner
+          shouldSuggestAI={shouldSuggestAI}
+          dataValidation={dataValidation}
+          isUsingAI={isUsingAI}
+        />
+      )}
 
       {hasMultipleDatasets && (
         <motion.div

@@ -12,7 +12,7 @@ const Hero = () => {
   return (
     <section
       className={twMerge(
-        "relative min-h-screen overflow-hidden pt-16",
+        "relative min-h-screen overflow-hidden pt-16 lg:pt-24 xl:pt-16",
         " flex items-center justify-center"
       )}
       id="hero"

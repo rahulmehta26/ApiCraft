@@ -8,6 +8,7 @@ import Minus from "../../components/icons/minus";
 import Minimize from "../../components/icons/minimize";
 import Button from "../../components/ui/button";
 import ErrorBody from "./error-body";
+import { useToastStore } from "../../store/useToastStore";
 
 const ErrorState = () => {
   const location = useLocation();
@@ -18,6 +19,8 @@ const ErrorState = () => {
   const validRoutes = ["/", "/craft"];
 
   const [inputPath, setInputPath] = useState(location?.pathname || "/");
+
+   const addToast = useToastStore((state) => state.addToast);
 
   const handleInputChange = (e) => {
     let value = e.target.value;
@@ -45,7 +48,7 @@ const ErrorState = () => {
     if (validRoutes.includes(path)) {
       navigate(path);
     } else {
-      addToast(`Route "${path}" not found.`, "error",);
+      addToast(`Route "${path}" not found.`, "error");
     }
   };
 

@@ -17,16 +17,18 @@ const Input = ({ val, onChange, onSubmit }) => {
         "border-6 border-foreground",
         "flex justify-between items-center"
       )}
+      role="search"
     >
       <input
         type="text"
         value={val}
         id="url"
         onChange={onChange}
+        inputMode="url" 
         placeholder="paste to peek..."
         className={twMerge(
-          "w-full md:py-4 py-2 md:pl-6 lg:pl-8 pl-4",
-          "md:text-2xl text-md font-semibold text-foreground",
+          "w-full py-3 md:py-4 md:pl-6 lg:pl-8 pl-4",
+          "md:text-2xl text-base font-semibold text-foreground",
           "md:placeholder:text-2xl placeholder:text-md placeholder:text-muted-foreground caret-foreground ",
           "outline outline-none"
         )}

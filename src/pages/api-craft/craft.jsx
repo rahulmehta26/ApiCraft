@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { motion } from "motion/react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Input from "../../components/ui/search-bar";
 import { getApiData } from "../../utils/get-api-data";
 import EmptyState from "../../components/ui/empty-state";
-import { findFirstArray } from "../../utils/finding-array";
 import Loader from "../../components/ui/loader";
 import { useToastStore } from "../../store/useToastStore";
 import CodeSnippetSectionCraft from "./code-snippet-section-craft";
@@ -14,7 +13,7 @@ import { useCraftToggles } from "../../hooks/useCraftToggles";
 import { isValidUrl } from "../../utils/url-valid-checker";
 import { analyzeApiWithAI } from "../../utils/gemini";
 import { checkIfApiHasData } from "../../utils/data-validators";
-import { getArrayToRender } from "../../utils/ai-extractor";
+import { getArrayToRender } from "../../utils/ai-parsers";
 
 export const preloadCraft = () => import("./craft");
 
@@ -36,11 +35,14 @@ const Craft = () => {
   const [aiDatasets, setAiDatasets] = useState(null);
   const [selectedDatasetIndex, setSelectedDatasetIndex] = useState(0);
 
+  const queryClient = useQueryClient();
+
   const { data, isLoading, isError, refetch, error } = useQuery({
     queryKey: ["apiData", urls],
     queryFn: () => getApiData(urls),
     enabled: false,
   });
+
 
   const addToast = useToastStore((state) => state.addToast);
 
@@ -64,11 +66,10 @@ const Craft = () => {
   const handleSubmit = async () => {
     if (!urls.trim()) return addToast("Please enter something to craft", "info");
       
-    
-
     if (!isValidUrl(urls)) return addToast("Please enter a valid URL!", "error");
-     
 
+    await queryClient.cancelQueries({ queryKey: ["apiData"] });
+     
     setAiDatasets(null);
     setSelectedDatasetIndex(0);
 

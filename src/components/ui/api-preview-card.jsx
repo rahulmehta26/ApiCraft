@@ -6,14 +6,12 @@ import {
   getImage,
   getPrice,
   getTitle,
-} from "../../utils/get-data";
+} from "../../utils/formatters";
 import NoImage from "../../assets/noImage.png";
 import { parentAnimations } from "../../animations/parent-animation";
+import { useEffect, useRef, useState } from "react";
 
 const PreviewCard = ({ data }) => {
-
-  console.log( "Data ==>", data);
-
   const imageSrc = getImage(data);
   const title = getTitle(data);
   const description = getDescription(data);
@@ -48,17 +46,52 @@ const PreviewCard = ({ data }) => {
 };
 
 const Image = ({ image }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const imgRef = useRef(null);
 
-  const imageSrc = typeof image === "string" && image.trim() !== "" ? image : null;
+  useEffect(() => {
+    if (!imgRef.current) return;
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "50px",
+      }
+    );
+
+    observer.observe(imgRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const imageSrc =
+    typeof image === "string" && image.trim() !== "" ? image : null;
 
   return (
-    <img
-      src={imageSrc}
-      onError={(e) => (e.currentTarget.src = NoImage)}
-      alt={ imageSrc ? "Nono" : "Image002" }
-      className=" w-full h-fit object-cover bg-transparent group-hover:scale-105 transition-all duration-300 "
-    />
+    <div ref={imgRef} className="relative w-full h-48 bg-muted">
+      {isInView && (
+        <img
+          src={imageSrc || NoImage}
+          alt={imageSrc ? "Preview" : "No Image"}
+          loading="lazy"
+          onLoad={() => setIsLoaded(true)}
+          onError={(e) => (e.currentTarget.src = NoImage)}
+          className={`w-full h-full object-cover transition-opacity duration-300 ${
+            isLoaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
+      {!isLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      )}
+    </div>
   );
 };
 
@@ -72,7 +105,9 @@ const Title = ({ title }) => {
 
 const Description = ({ description }) => {
   return (
-    <p className=" text-sm w-[100%] text-muted-foreground line-clamp-4 font-medium ">{description}</p>
+    <p className=" text-sm w-[100%] text-muted-foreground line-clamp-4 font-medium ">
+      {description}
+    </p>
   );
 };
 
@@ -90,7 +125,7 @@ const Price = ({ price }) => (
 
 const Category = ({ category }) => (
   <span className="px-2 w-fit py-1 text-xs font-medium bg-foreground/10 text-foreground rounded-md">
-    {category} {" "}
+    {category}{" "}
   </span>
 );
 
