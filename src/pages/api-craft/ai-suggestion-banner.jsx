@@ -12,8 +12,7 @@ const AiSuggestionBanner = () => {
         className={twMerge(
           "md:w-[48rem] lg:w-4xl xl:w-7xl relative mx-auto ",
           "bg-transparent",
-          "flex justify-center items-center",
-          
+          "flex justify-center items-center"
         )}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -48,10 +47,12 @@ const AiSuggestionBanner = () => {
             </div>
           </div>
 
-          <div className={twMerge(" flex justify-between gap-6 p-8 ")}> 
+          <div
+            className={twMerge(" flex items-center justify-between gap-6 p-8 ")}
+          >
             <Warning className=" text-yellow w-20 h-20 md:w-28 md:h-28 " />
 
-            <div className=" space-y-2 ">
+            <div className=" space-y-6 ">
               <p
                 className={twMerge(
                   "md:text-4xl text:2xl font-bold font-error "
@@ -62,10 +63,10 @@ const AiSuggestionBanner = () => {
 
               <h3
                 className={twMerge(
-                  "font-[500] text-lg font-error text-foreground mb-2"
+                  "font-[500] text-md font-error text-foreground mb-2"
                 )}
               >
-                Complex API Detected
+                Couldn't extract any data
               </h3>
 
               <p
@@ -73,8 +74,8 @@ const AiSuggestionBanner = () => {
                   "md:text-[10px] text-[7px] font-light font-error leading-loose"
                 )}
               >
-                Couldn't extract any data with normal function. Click the AI
-                button for intelligent extraction.
+                We found data, but its structure is nested and hard to read. Use
+                AI to intelligently extract and display it.
               </p>
             </div>
           </div>
