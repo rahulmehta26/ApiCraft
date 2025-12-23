@@ -4,6 +4,7 @@ import Minus from "../../components/icons/minus";
 import Minimize from "../../components/icons/minimize";
 import X from "../../components/icons/x";
 import Warning from "../../components/icons/warning";
+import { parentAnimations } from "../../animations/parent-animation";
 
 const AiSuggestionBanner = () => {
   return (
@@ -14,14 +15,14 @@ const AiSuggestionBanner = () => {
           "bg-transparent",
           "flex justify-center items-center"
         )}
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
+        {...parentAnimations?.fadeInUp}
+        {...parentAnimations?.fadeOutDown}
       >
         <div
           className={twMerge(
             "w-[18rem] md:w-[35rem] h-auto",
             "border-foreground border-4 bg-[#2d2d2d]",
-            "neo-shadow z-[999]"
+            "neo-shadow"
           )}
         >
           <div
@@ -41,7 +42,7 @@ const AiSuggestionBanner = () => {
               <Minimize className="h-2.5 w-2.5 md:h-4 md:w-4" />
               <X
                 className={twMerge(
-                  "h-3.5 w-3.5 md:h-5.5 md:w-5.5 text-background dark:text-foreground cursor-pointer"
+                  "h-3.5 w-3.5 md:h-5.5 md:w-5.5 text-background dark:text-foreground"
                 )}
               />
             </div>

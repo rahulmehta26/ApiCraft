@@ -32,10 +32,7 @@ const CodeSnippetSection = () => {
   };
 
   return (
-    <motion.section
-      {...parentAnimations?.fadeInUp}
-      id="code"
-      className={twMerge("relative py-32")}>
+    <motion.section id="code" className={twMerge("relative py-32")}>
       <div
         className={twMerge(
           "bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:6rem_6rem]",
@@ -43,14 +40,18 @@ const CodeSnippetSection = () => {
         )}
       />
 
-      <div className={twMerge("container mx-auto px-4", "relative z-10")}>
+      <motion.div
+        {...parentAnimations?.fadeInUp}
+        className={twMerge("container mx-auto px-4", "relative z-10")}
+      >
         <div className={twMerge("text-center mb-16 space-y-4")}>
           <h2
             className={twMerge(
               "font-bold font-comico text-4xl md:text-6xl leading-normal text-balance"
             )}
           >
-             Production-Ready <span className={twMerge("gradient-text")}>Code</span>
+            Production-Ready{" "}
+            <span className={twMerge("gradient-text")}>Code</span>
           </h2>
           <p
             className={twMerge(
@@ -58,16 +59,15 @@ const CodeSnippetSection = () => {
               "text-lg font-clash text-muted-foreground text-pretty"
             )}
           >
-            Copy clean, optimized code with error handling and best practices built-in. 
-            Ship faster with code that just works.
+            Copy clean, optimized code with error handling and best practices
+            built-in. Ship faster with code that just works.
           </p>
         </div>
 
         <CodeTerminal handleCopy={handleCopy} copied={copied}>
           <CodeSample />
         </CodeTerminal>
-
-      </div>
+      </motion.div>
     </motion.section>
   );
 };

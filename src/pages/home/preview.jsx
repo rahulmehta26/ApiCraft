@@ -12,18 +12,17 @@ const Preview = () => {
 
   return (
     <motion.section
-      {...parentAnimations?.fadeInUp}
       id="preview"
       className="relative py-32 bg-muted/70 mask-preview ">
-      <motion.div {...parentAnimations?.fadeInUp} className="container mx-auto px-4">
-        <div className="text-center mb-16 space-y-4">
+      <div className="container mx-auto px-4">
+        <motion.div {...parentAnimations?.fadeInUp} className="text-center mb-16 space-y-4">
           <h2 className="font-bold font-comico text-4xl md:text-6xl leading-normal text-balance">
              Peek Inside <span className={twMerge("gradient-text")}>Your Data</span>
           </h2>
           <p className="text-lg font-clash text-muted-foreground max-w-2xl mx-auto text-pretty">
             Transform API responses into stunning visual previews with smart card layouts
           </p>
-        </div>
+        </motion.div>
 
         <motion.div {...parentAnimations?.fadeInUp} className="max-w-4xl mx-auto space-y-6">
           <div className="flex flex-col md:flex-row justify-center gap-4">
@@ -54,7 +53,6 @@ const Preview = () => {
             />
           </div>
 
-          {/* Preview content */}
           {viewMode === "cards" ? (
             <div className="grid md:grid-cols-2 gap-6">
               {sampleData?.map((item, index) => (
@@ -97,7 +95,8 @@ const Preview = () => {
             </div>
           )}
         </motion.div>
-      </motion.div>
+
+      </div>
     </motion.section>
   );
 };

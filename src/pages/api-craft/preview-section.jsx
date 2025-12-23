@@ -39,9 +39,7 @@ const PreviewSection = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+      {...parentAnimations?.fadeInUp}
       className=" my-16 space-y-8 md:space-y-16 "
     >
       <div className=" flex flex-col md:flex-row justify-between items-center gap-6 ">

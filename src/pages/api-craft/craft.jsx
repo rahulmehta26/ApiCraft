@@ -13,6 +13,7 @@ import { useCraftToggles } from "../../hooks/useCraftToggles";
 import { checkIfApiHasData } from "../../utils/data-validators";
 import { getArrayToRender } from "../../utils/ai-parsers";
 import { analyzeApiWithAI } from "../../services/ai-service";
+import { parentAnimations } from "../../animations/parent-animation";
 
 export const preloadCraft = () => import("./craft");
 
@@ -36,19 +37,18 @@ const Craft = () => {
 
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isError, refetch, error } = useQuery({
+  const { data, isLoading, isError, refetch, error, isFetching } = useQuery({
     queryKey: ["apiData", urls],
     queryFn: () => getApiData(urls),
     enabled: false,
   });
 
-
   const addToast = useToastStore((state) => state.addToast);
 
-  const hasApiData = useMemo(() =>  checkIfApiHasData(data), [data]);
+  const hasApiData = useMemo(() => checkIfApiHasData(data), [data]);
 
-   const arrayToRender = useMemo(() =>
-    getArrayToRender(data, aiDatasets, selectedDatasetIndex), 
+  const arrayToRender = useMemo(
+    () => getArrayToRender(data, aiDatasets, selectedDatasetIndex),
     [data, aiDatasets, selectedDatasetIndex]
   );
 
@@ -63,12 +63,14 @@ const Craft = () => {
   }, [isError, error, addToast]);
 
   const handleSubmit = async () => {
-    if (!urls.trim()) return addToast("Please enter something to craft", "info");
-      
-    if (!isValidUrl(urls)) return addToast("Please enter a valid URL!", "error");
+    if (!urls.trim())
+      return addToast("Please enter something to craft", "info");
+
+    if (!isValidUrl(urls))
+      return addToast("Please enter a valid URL!", "error");
 
     await queryClient.cancelQueries({ queryKey: ["apiData"] });
-     
+
     setAiDatasets(null);
     setSelectedDatasetIndex(0);
 
@@ -87,10 +89,8 @@ const Craft = () => {
 
     try {
       setIsAIProcessing(true);
-      addToast("AI is analyzing your API...", "info", 2000);
 
       const aiResult = await analyzeApiWithAI(data);
-      console.log("AI Result:", aiResult);
 
       if (aiResult.datasets && aiResult.datasets.length > 0) {
         setAiDatasets(aiResult);
@@ -128,9 +128,6 @@ const Craft = () => {
     }
   };
 
-  if (isLoading) return <Loader message="Fetching API..." />;
-  if (isAIProcessing) return <Loader message="AI is analyzing..." />;
-
   return (
     <section
       className={twMerge("relative min-h-screen overflow-hidden px-4 pt-32")}
@@ -144,9 +141,7 @@ const Craft = () => {
 
       <div className="relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+          {...parentAnimations?.fadeInUp}
           className="text-start mb-16 space-y-12"
         >
           <h2 className="font-bold max-w-4xl font-comico text-4xl md:text-7xl leading-normal text-balance">
@@ -155,11 +150,7 @@ const Craft = () => {
           </h2>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-        >
+        <motion.div {...parentAnimations?.fadeInUp}>
           <Input
             val={urls}
             onChange={(e) => setUrls(e.target.value)}
@@ -194,14 +185,16 @@ const Craft = () => {
             />
           </motion.div>
         ) : (
-          <motion.section
-            className="my-10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
+          <>
             <EmptyState />
-          </motion.section>
+          </>
+        )}
+        {(isFetching || isAIProcessing) && (
+            <Loader
+              message={
+                isAIProcessing ? "AI is analyzing..." : "Fetching API..."
+              }
+            />
         )}
       </div>
     </section>

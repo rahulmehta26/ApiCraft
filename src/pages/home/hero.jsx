@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/button";
 import { preloadCraft } from "../api-craft/craft";
+import { parentAnimations } from "../../animations/parent-animation";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -21,9 +22,7 @@ const Hero = () => {
         <div className="grid lg:grid-cols-12 content-between gap-12 ">
           <motion.div
             className="space-y-8 col-span-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            {...parentAnimations?.fadeInUp}
           >
             <h1 className={twMerge("font-bold font-comico text-5xl md:text-7xl leading-tight text-balance")}>
               Peek Inside Your{" "}
@@ -54,9 +53,7 @@ const Hero = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+           {...parentAnimations?.fadeInUp}
             className="relative space-y-8 col-span-4 hidden lg:block">
             
             <PreviewCard className="absolute top-0 right-0" />

@@ -1,12 +1,11 @@
 import { motion } from "motion/react";
+import { parentAnimations } from "../../animations/parent-animation";
 
 const EmptyState = () => {
   return (
     <motion.div
-      className="border-4 border-dashed border-foreground/50 bg-muted/30 p-12"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+      className="border-4 border-dashed border-foreground/50 bg-muted/30 my-24 p-12"
+      {...parentAnimations?.fadeInUp}
     >
       <div className="flex flex-col items-center justify-center text-center gap-6">
         <div>

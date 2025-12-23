@@ -8,6 +8,7 @@ import Globe from "../../components/icons/globe";
 import Hexagon from "../../components/icons/hexagon";
 import PromiseIcon from "../../components/icons/promise";
 import AsyncIcon from "../../components/icons/async";
+import { parentAnimations } from "../../animations/parent-animation";
 
 const CodeSnippetSectionCraft = ({
   url,
@@ -20,9 +21,7 @@ const CodeSnippetSectionCraft = ({
 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+      {...parentAnimations?.fadeInUp}
       id="code-snippet"
       className="my-16 space-y-8 md:space-y-16 "
     >

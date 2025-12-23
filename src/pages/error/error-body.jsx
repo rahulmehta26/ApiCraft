@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { twMerge } from "tailwind-merge";
+import { parentAnimations } from "../../animations/parent-animation";
 
 const ErrorBody = ({ children, className }) => {
   return (
@@ -10,8 +11,7 @@ const ErrorBody = ({ children, className }) => {
         "flex justify-center items-center",
         className
       )}
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
+      {...parentAnimations?.fadeInUp}
     >
       <div
         className={twMerge(

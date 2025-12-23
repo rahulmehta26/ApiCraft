@@ -5,12 +5,12 @@ import { parentAnimations } from "../../animations/parent-animation";
 
 const Features = () => {
   return (
-    <motion.section
-      {...parentAnimations?.fadeInUp}
-      id="feature"
-      className="relative py-32 overflow-hidden">
+    <motion.section id="feature" className="relative py-32 overflow-hidden">
       <div className="container relative z-10 mx-auto px-4">
-        <div className="text-center mb-16 space-y-4">
+        <motion.div
+          {...parentAnimations?.fadeInUp}
+          className="text-center mb-16 space-y-4"
+        >
           <h2 className="font-bold font-comico text-4xl md:text-6xl leading-normal text-balance">
             Everything You Need to{" "}
             <span className={twMerge("gradient-text")}>Peek Into APIs</span>
@@ -18,9 +18,12 @@ const Features = () => {
           <p className="text-lg font-clash text-muted-foreground max-w-2xl mx-auto text-pretty">
             Four powerful features that make API exploration effortless
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <motion.div
+          {...parentAnimations?.fadeInUp}
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
@@ -37,7 +40,7 @@ const Features = () => {
                     "h-14 w-14  border-4 border-foreground mb-4",
                     "group-hover:scale-110 transition-transform",
                     "inline-flex items-center justify-center ",
-                    feature.color === 'primary' ? 'bg-primary' : 'bg-green-50'
+                    feature.color === "primary" ? "bg-primary" : "bg-green-50"
                   )}
                 >
                   <Icon
@@ -55,7 +58,7 @@ const Features = () => {
               </div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </motion.section>
   );
