@@ -19,4 +19,9 @@ export default defineConfig({
   optimizeDeps: {
     include: ["react", "react-dom", "react-router-dom"],
   },
+  server: {
+    proxy: {
+      "/api": "http://localhost:5000",
+    },
+  },
 });

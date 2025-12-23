@@ -3,17 +3,16 @@ import { twMerge } from "tailwind-merge";
 import { motion } from "motion/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Input from "../../components/ui/search-bar";
-import { getApiData } from "../../utils/get-api-data";
+import { getApiData, isValidUrl } from "../../services/api-service";
 import EmptyState from "../../components/ui/empty-state";
 import Loader from "../../components/ui/loader";
 import { useToastStore } from "../../store/useToastStore";
 import CodeSnippetSectionCraft from "./code-snippet-section-craft";
 import PreviewSection from "./preview-section";
 import { useCraftToggles } from "../../hooks/useCraftToggles";
-import { isValidUrl } from "../../utils/url-valid-checker";
-import { analyzeApiWithAI } from "../../utils/gemini";
 import { checkIfApiHasData } from "../../utils/data-validators";
 import { getArrayToRender } from "../../utils/ai-parsers";
+import { analyzeApiWithAI } from "../../services/ai-service";
 
 export const preloadCraft = () => import("./craft");
 
