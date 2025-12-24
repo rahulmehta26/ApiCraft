@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 import { motion } from "motion/react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Input from "../../components/ui/search-bar";
-import { getApiData, isValidUrl } from "../../services/api-service";
+import { isValidUrl } from "../../services/api-service";
 import EmptyState from "../../components/ui/empty-state";
 import Loader from "../../components/ui/loader";
 import { useToastStore } from "../../store/useToastStore";
@@ -12,8 +11,9 @@ import PreviewSection from "./preview-section";
 import { useCraftToggles } from "../../hooks/useCraftToggles";
 import { checkIfApiHasData } from "../../utils/data-validators";
 import { getArrayToRender } from "../../utils/ai-parsers";
-import { analyzeApiWithAI } from "../../services/ai-service";
 import { parentAnimations } from "../../animations/parent-animation";
+import { useCraftApi } from "../../hooks/useCraftApi";
+import { useCraftAI } from "../../hooks/useCraftAI";
 
 export const preloadCraft = () => import("./craft");
 
@@ -31,28 +31,26 @@ const Craft = () => {
     toggleUiShow,
   } = useCraftToggles();
 
-  const [isAIProcessing, setIsAIProcessing] = useState(false);
-  const [aiDatasets, setAiDatasets] = useState(null);
-  const [selectedDatasetIndex, setSelectedDatasetIndex] = useState(0);
-
-  const queryClient = useQueryClient();
-
-  const { data, isLoading, isError, refetch, error, isFetching } = useQuery({
-    queryKey: ["apiData", urls],
-    queryFn: () => getApiData(urls),
-    enabled: false,
-  });
-
   const addToast = useToastStore((state) => state.addToast);
+
+  const { data, isError, error, isFetching, fetchApi } = useCraftApi(urls);
+
+  const {
+    analyze,
+    reset,
+    isProcessing,
+    datasets,
+    selectedIndex,
+    setSelectedIndex,
+    isUsingAI,
+  } = useCraftAI(addToast);
 
   const hasApiData = useMemo(() => checkIfApiHasData(data), [data]);
 
   const arrayToRender = useMemo(
-    () => getArrayToRender(data, aiDatasets, selectedDatasetIndex),
-    [data, aiDatasets, selectedDatasetIndex]
+    () => getArrayToRender(data, datasets, selectedIndex),
+    [data, datasets, selectedIndex]
   );
-
-  const isUsingAI = !!aiDatasets;
 
   useEffect(() => {
     if (isError && error) {
@@ -69,10 +67,11 @@ const Craft = () => {
     if (!isValidUrl(urls))
       return addToast("Please enter a valid URL!", "error");
 
-    await queryClient.cancelQueries({ queryKey: ["apiData"] });
+    reset();
+    await fetchApi();
 
     setAiDatasets(null);
-    setSelectedDatasetIndex(0);
+    setSelectedIndex(0);
 
     try {
       await refetch();
@@ -81,51 +80,13 @@ const Craft = () => {
     }
   };
 
-  const handleUseAI = async () => {
+  const handleUseAI = () => {
     if (!data || !hasApiData) {
       addToast("API contains no usable data for analysis.", "warning");
       return;
     }
 
-    try {
-      setIsAIProcessing(true);
-
-      const aiResult = await analyzeApiWithAI(data);
-
-      if (aiResult.datasets && aiResult.datasets.length > 0) {
-        setAiDatasets(aiResult);
-        setSelectedDatasetIndex(0);
-        addToast(
-          aiResult.datasets.length > 1
-            ? `AI found ${aiResult.datasets.length} datasets! Use tabs to switch.`
-            : `AI extracted ${aiResult.datasets[0].data.length} items!`,
-          "success"
-        );
-      } else {
-        addToast("AI couldn't extract data from this API.", "warning");
-      }
-    } catch (error) {
-      if (
-        error.message?.includes("quota exceeded") ||
-        error.message?.includes("429")
-      ) {
-        addToast(
-          "AI quota exceeded. Please wait and try again.",
-          "error",
-          5000
-        );
-      } else if (error.message?.includes("API key")) {
-        addToast(
-          "Invalid API key. Please check your Gemini API key.",
-          "error",
-          5000
-        );
-      } else {
-        addToast(`AI analysis failed: ${error.message}`, "error");
-      }
-    } finally {
-      setIsAIProcessing(false);
-    }
+    analyze(data);
   };
 
   return (
@@ -179,9 +140,9 @@ const Craft = () => {
               toggleUiShow={toggleUiShow}
               onUseAI={handleUseAI}
               isUsingAI={isUsingAI}
-              aiDatasets={aiDatasets}
-              selectedDatasetIndex={selectedDatasetIndex}
-              onDatasetChange={setSelectedDatasetIndex}
+              aiDatasets={datasets}
+              selectedDatasetIndex={selectedIndex}
+              onDatasetChange={setSelectedIndex}
             />
           </motion.div>
         ) : (
@@ -189,12 +150,10 @@ const Craft = () => {
             <EmptyState />
           </>
         )}
-        {(isFetching || isAIProcessing) && (
-            <Loader
-              message={
-                isAIProcessing ? "AI is analyzing..." : "Fetching API..."
-              }
-            />
+        {(isFetching || isProcessing) && (
+          <Loader
+            message={isProcessing ? "AI is analyzing..." : "Fetching API..."}
+          />
         )}
       </div>
     </section>
