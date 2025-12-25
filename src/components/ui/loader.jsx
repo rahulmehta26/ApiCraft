@@ -1,11 +1,24 @@
 import { motion } from "motion/react";
+import { twMerge } from "tailwind-merge";
 
 const Loader = ({message = "Peeking inside..."}) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/10 backdrop-blur-xs">
-      <div className="bg-background w-72 md:w-80 border-4 border-foreground p-12 neo-shadow">
-        <div className="flex flex-col items-center justify-center gap-6">
-          <div className="relative h-8 md:h-10 w-52 md:w-56 overflow-hidden border-4 border-foreground bg-transparent neo-shadow">
+    <div className={twMerge(
+      "bg-background/10 backdrop-blur-xs",
+      "flex items-center justify-center",
+      "fixed inset-0 z-50"
+    )}>
+      <div className={twMerge(
+        "w-72 md:w-80 p-12",
+        "bg-background border-4 border-foreground ",
+        "neo-shadow"
+      )}>
+        <div className={twMerge("flex flex-col items-center justify-center gap-6")}>
+          <div className={twMerge(
+                "relative h-8 md:h-10 w-52 md:w-56",
+                "border-4 border-foreground bg-transparent",
+                "neo-shadow overflow-hidden"
+              )}>
             <motion.div
               className="h-full bg-foreground"
               animate={{ x: ["-100%", "100%"] }}
@@ -18,7 +31,7 @@ const Loader = ({message = "Peeking inside..."}) => {
           </div>
 
           <motion.span
-            className="font-mono text-sm md:text-md tracking-widest text-foreground"
+           className={twMerge("font-mono text-sm md:text-md tracking-widest text-foreground")}
             animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{
               duration: 1.2,

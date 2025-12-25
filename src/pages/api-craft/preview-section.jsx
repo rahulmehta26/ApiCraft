@@ -1,5 +1,5 @@
 import { twMerge } from "tailwind-merge";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import AiIcon from "../../components/icons/ai";
 import Grid from "../../components/icons/grid";
 import Database from "../../components/icons/database";
@@ -9,6 +9,9 @@ import Button from "../../components/ui/button";
 import { parentAnimations } from "../../animations/parent-animation";
 import AiSuggestionBanner from "./ai-suggestion-banner";
 import { isRenderableCard } from "../../utils/is-renderable-card";
+import { useInfiniteScrollPreview } from "../../hooks/useInfiniteScrollPreview";
+import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
+import InfiniteLoadTrigger from "./infinite-load-trigger";
 
 const PreviewSection = ({
   arrayToRender,
@@ -19,7 +22,6 @@ const PreviewSection = ({
   selectedDatasetIndex,
   onDatasetChange,
 }) => {
-
   const hasData = Array.isArray(arrayToRender) && arrayToRender.length > 0;
 
   const hasReadableStructure = hasData && arrayToRender.some(isRenderableCard);
@@ -27,6 +29,23 @@ const PreviewSection = ({
   const showAiBanner = hasData && !hasReadableStructure;
 
   const hasMultipleDatasets = aiDatasets && aiDatasets?.datasets?.length > 1;
+
+  const {
+    allItems,
+    totalItems,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteScrollPreview(arrayToRender, onUseAI);
+
+  const loadMoreRef = useIntersectionObserver({
+    onIntersect: () => {
+      if (hasNextPage && !isFetchingNextPage && uiShow === "cards") {
+        fetchNextPage();
+      }
+    },
+    enabled: hasNextPage && !isFetchingNextPage && uiShow === "cards",
+  });
 
   return (
     <motion.div
@@ -100,25 +119,41 @@ const PreviewSection = ({
             {uiShow === "json" ? (
               <PreviewJSON data={arrayToRender} />
             ) : (
-              <motion.div
-                key={selectedDatasetIndex}
-                className={twMerge(
-                  " columns-1 md:columns-2 lg:columns-3 xl:columns-4 ",
-                  "gap-4"
-                )}
-                {...parentAnimations.staggerParent}
-              >
-                {arrayToRender &&
-                  arrayToRender?.map((item, index) => (
-                    <motion.div
-                      key={index}
-                      className="mb-8 break-inside-avoid flex justify-center"
-                      layout
-                    >
-                      <PreviewCard data={item} />
-                    </motion.div>
-                  ))}
-              </motion.div>
+              <>
+                <motion.div
+                  key={selectedDatasetIndex}
+                  className={twMerge(
+                    " columns-1 md:columns-2 lg:columns-3 xl:columns-4 ",
+                    "gap-4"
+                  )}
+                  {...parentAnimations.staggerParent}
+                >
+                  <AnimatePresence mode="popLayout">
+                    {allItems.map((item, index) => (
+                      <motion.div
+                        key={`${selectedDatasetIndex}-${index}`}
+                        className="mb-8 break-inside-avoid flex justify-center"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                        layout
+                      >
+                        <PreviewCard data={item} />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </motion.div>
+
+                <InfiniteLoadTrigger
+                  allItems={allItems}
+                  fetchNextPage={fetchNextPage}
+                  hasNextPage={hasNextPage}
+                  isFetchingNextPage={isFetchingNextPage}
+                  loadMoreRef={loadMoreRef}
+                  totalItems={totalItems}
+                />
+              </>
             )}
           </div>
         </>

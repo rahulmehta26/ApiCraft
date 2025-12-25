@@ -12,6 +12,7 @@ import { parentAnimations } from "../../animations/parent-animation";
 import { useEffect, useRef, useState } from "react";
 
 const PreviewCard = ({ data }) => {
+
   const imageSrc = getImage(data);
   const title = getTitle(data);
   const description = getDescription(data);
