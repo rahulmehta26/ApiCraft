@@ -15,6 +15,7 @@ import { parentAnimations } from "../../animations/parent-animation";
 import { useCraftApi } from "../../hooks/useCraftApi";
 import { useCraftAI } from "../../hooks/useCraftAI";
 import { getUserFriendlyError, logError } from "../../utils/error-handlers";
+import ScrollToTop from "../../components/ui/scroll-to-top";
 
 export const preloadCraft = () => import("./craft");
 
@@ -154,6 +155,8 @@ const Craft = () => {
           />
         )}
       </div>
+
+      <ScrollToTop />
     </section>
   );
 };

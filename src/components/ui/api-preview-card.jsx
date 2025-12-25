@@ -8,11 +8,10 @@ import {
   getTitle,
 } from "../../utils/formatters";
 import NoImage from "../../assets/noImage.png";
-import { parentAnimations } from "../../animations/parent-animation";
 import { useEffect, useRef, useState } from "react";
+import { parentAnimations } from "../../animations/parent-animation";
 
 const PreviewCard = ({ data }) => {
-
   const imageSrc = getImage(data);
   const title = getTitle(data);
   const description = getDescription(data);
@@ -21,7 +20,13 @@ const PreviewCard = ({ data }) => {
 
   return (
     <motion.div
-      {...parentAnimations?.staggerItem}
+      initial={parentAnimations.card3DScroll.initial}
+      whileInView={parentAnimations.card3DScroll.inView}
+      viewport={{ once: false, amount: 0.25 }}
+      transition={parentAnimations.card3DScroll.transition}
+      style={{
+        transformStyle: "preserve-3d",
+      }}
       className={twMerge(
         "w-[15rem] h-auto",
         "border-4 border-foreground ",

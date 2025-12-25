@@ -142,6 +142,10 @@
   .gradient-text {
     @apply bg-gradient-to-r from-primary via-primary/75 to-primary/50 bg-clip-text relative z-10 text-transparent;
   }
+
+  .perspective-1200 {
+  perspective: 1200px;
+}
 }
 
 .mask-preview {

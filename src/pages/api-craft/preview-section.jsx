@@ -132,7 +132,7 @@ const PreviewSection = ({
                     {allItems.map((item, index) => (
                       <motion.div
                         key={`${selectedDatasetIndex}-${index}`}
-                        className="mb-8 break-inside-avoid flex justify-center"
+                        className="mb-8 break-inside-avoid flex justify-center perspective-container"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9 }}
