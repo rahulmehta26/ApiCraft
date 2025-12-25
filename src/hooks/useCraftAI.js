@@ -26,13 +26,9 @@ export const useCraftAI = (addToast) => {
         "success"
       );
     } catch (error) {
-      const msg = error.message?.includes("quota")
-        ? "AI quota exceeded."
-        : error.message?.includes("API key")
-        ? "Invalid API key."
-        : "AI analysis failed.";
-
-      addToast(msg, "error", 5000);
+      logError(error, "AI Analysis", { dataSize: JSON.stringify(data).length });
+      const userMessage = getUserFriendlyError(error, "AI Analysis");
+      addToast(userMessage, "error", 5000);
     } finally {
       setIsProcessing(false);
     }

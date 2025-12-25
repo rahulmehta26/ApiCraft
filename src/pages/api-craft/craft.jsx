@@ -14,6 +14,7 @@ import { getArrayToRender } from "../../utils/ai-parsers";
 import { parentAnimations } from "../../animations/parent-animation";
 import { useCraftApi } from "../../hooks/useCraftApi";
 import { useCraftAI } from "../../hooks/useCraftAI";
+import { getUserFriendlyError, logError } from "../../utils/error-handlers";
 
 export const preloadCraft = () => import("./craft");
 
@@ -54,9 +55,9 @@ const Craft = () => {
 
   useEffect(() => {
     if (isError && error) {
-      let msg = error?.message || "An error occurred";
-      msg = msg.replace(/^AxiosError:\s*/i, "");
-      addToast(msg, "error");
+      logError(error, "API Fetch", { url: urls });
+      const userMessage = getUserFriendlyError(error, "API Fetch")
+      addToast(userMessage, "error");
     }
   }, [isError, error, addToast]);
 
@@ -67,16 +68,13 @@ const Craft = () => {
     if (!isValidUrl(urls))
       return addToast("Please enter a valid URL!", "error");
 
-    reset();
-    await fetchApi();
-
-    setAiDatasets(null);
-    setSelectedIndex(0);
-
     try {
-      await refetch();
+      reset();
+      await fetchApi();
     } catch (error) {
-      throw new Error(error);
+      logError(error, "handleSubmit", { url: urls })
+      const userMessage = getUserFriendlyError(error);
+      addToast(userMessage, "error");
     }
   };
 

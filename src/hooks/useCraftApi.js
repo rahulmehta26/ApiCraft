@@ -11,8 +11,12 @@ export const useCraftApi = (url) => {
   });
 
   const fetchApi = async () => {
-    await queryClient.cancelQueries({ queryKey: ["apiData"] });
-    return query.refetch();
+    try {
+      await queryClient.cancelQueries({ queryKey: ["apiData"] });
+      return await query.refetch();
+    } catch (error) {
+      throw error;
+    }
   };
 
   return {

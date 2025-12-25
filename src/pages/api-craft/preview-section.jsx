@@ -7,9 +7,7 @@ import PreviewJSON from "../../components/ui/api-preview-json";
 import PreviewCard from "../../components/ui/api-preview-card";
 import Button from "../../components/ui/button";
 import { parentAnimations } from "../../animations/parent-animation";
-import { validateArrayData } from "../../utils/data-validators";
 import AiSuggestionBanner from "./ai-suggestion-banner";
-import { useToastStore } from "../../store/useToastStore";
 import { isRenderableCard } from "../../utils/is-renderable-card";
 
 const PreviewSection = ({
@@ -21,13 +19,6 @@ const PreviewSection = ({
   selectedDatasetIndex,
   onDatasetChange,
 }) => {
-  const { isValid, message } = validateArrayData(arrayToRender);
-
-  const addToast = useToastStore((state) => state?.addToast);
-
-  if (!isValid) {
-    addToast(message, error);
-  }
 
   const hasData = Array.isArray(arrayToRender) && arrayToRender.length > 0;
 

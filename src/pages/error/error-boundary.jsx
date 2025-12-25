@@ -1,5 +1,6 @@
 import { Component } from "react";
 import ErrorState from "./error-state";
+import { logError } from "../../utils/error-handlers";
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -12,7 +13,9 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, info) {
-    console.error("ErrorBoundary caught an error:", error, info);
+    logError(error, 'React Error Boundary', {
+      componentStack: info.componentStack
+    })
   }
 
   handleRetry = () => {
@@ -21,10 +24,12 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
+
+      const userMessage = "Something went wrong. Please refresh the page.";
       return (
         <ErrorState
           onRetry={this.handleRetry}
-          errorMessage={this.state.error?.message}
+          errorMessage={userMessage}
         />
       );
     }

@@ -1,4 +1,5 @@
 import { SYSTEM_PROMPT } from "../content/prompt";
+import { logError } from "../utils/error-handlers";
 
 const API_ENDPOINT = "/api/analyze-api";
 const MAX_INPUT_LENGTH = 30000;
@@ -107,8 +108,6 @@ const filterDatasets = (datasets) =>
     }));
 
 export const analyzeApiWithAI = async (apiResponse) => {
-  const startTime = Date.now();
-
   try {
     const truncated = truncateData(apiResponse);
     const fullPrompt = `${SYSTEM_PROMPT}\n\n${truncated}`;
@@ -147,6 +146,9 @@ export const analyzeApiWithAI = async (apiResponse) => {
 
     return normalized;
   } catch (error) {
-    throw new Error("AI analysis failed: " + error.message);
+    logError(error, "analyzeApiWithAI", {
+      dataLength: JSON.stringify(apiResponse).length,
+    });
+    throw error;
   }
 };
