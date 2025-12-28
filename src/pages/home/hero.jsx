@@ -18,6 +18,7 @@ const Hero = () => {
       )}
       id="hero"
     >
+      
       <div className="container relative z-10 mx-auto px-4">
         <div className="grid lg:grid-cols-12 content-between gap-12 ">
           <motion.div

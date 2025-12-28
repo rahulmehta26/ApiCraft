@@ -7,6 +7,7 @@ import ArrowRight from "../icons/arrowRight";
 import MenuIcon from "./menu-icon";
 import { useMenuModal } from "../../store/useMenuModal";
 import { preloadCraft } from "../../pages/api-craft/craft";
+import Logo from "../../../public/apipeek-logo.svg"
 
 const Header = () => {
   const navigate = useNavigate();
@@ -29,15 +30,21 @@ const Header = () => {
       <div
         className={twMerge(
           "md:w-[46rem] lg:w-4xl xl:w-7xl",
-          "mx-auto px-4",
+          "mx-auto pl-8 pr-4 md:px-4",
           "grid grid-cols-3 "
         )}
       >
-        <div className={twMerge("col-span-1 justify-self-start")}>
+        <div className={twMerge("col-span-1 flex justify-center items-center gap-2 justify-self-start")}>
+
+          <img
+            src={Logo}
+            className=" md:w-12 w-8 h-auto object-cover "
+            loading="lazy"
+          />
           <h1
             onClick={() => navigate("/")}
             className={twMerge(
-              " md:text-4xl text-2xl font-bold tracking-tighter "
+              " md:text-4xl text-2xl font-comico font-bold tracking-tighter "
             )}
           >
             ApiPeek

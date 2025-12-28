@@ -23,6 +23,7 @@ const Input = ({ val, onChange, onSubmit }) => {
         type="text"
         value={val}
         id="url"
+        name="url"
         onChange={onChange}
         inputMode="url" 
         placeholder="paste to peek..."

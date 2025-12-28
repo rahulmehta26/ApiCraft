@@ -52,6 +52,7 @@ const PreviewCard = ({ data }) => {
 };
 
 const Image = ({ image }) => {
+  
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const imgRef = useRef(null);
